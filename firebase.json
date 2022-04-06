@@ -1,6 +1,7 @@
 {
-  "database": {
-    "rules": "database.rules.json"
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
   },
   "hosting": {
     "public": "dist",
@@ -15,19 +16,5 @@
         "destination": "/index.html"
       }
     ]
-  },
-  "emulators": {
-    "firestore": {
-      "port": 7080
-    },
-    "database": {
-      "port": 9000
-    },
-    "hosting": {
-      "port": 5000
-    },
-    "ui": {
-      "enabled": true
-    }
   }
 }
