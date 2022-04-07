@@ -1,3 +1,23 @@
-.h1 {
-    font: 20px verdana, sans-serif;
+#main {
+    margin: 25px;
+}
+
+
+h1 {
+    font: 30px verdana, sans-serif;
+}
+
+section {
+    display: table;
+}
+
+.sentence {
+    margin: 25px;
+    margin-left: 50px;
+    font: 60px verdana, sans-serif;
+}
+
+.start-button-row {
+    display: table-cell;
+    width: 490px;
 }

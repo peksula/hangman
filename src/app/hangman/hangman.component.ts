@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { EpisodeService } from '../episode.service';
-import { Episode } from '../models/episode';
+import { SentenceService } from '../sentence.service';
+import { Sentence } from '../models/sentence';
 
 
 @Component({
@@ -9,17 +9,19 @@ import { Episode } from '../models/episode';
   styleUrls: ['./hangman.component.css']
 })
 export class HangmanComponent implements OnInit {
- 
-  episodes: Episode[] = [];
 
-  constructor(private episodeService: EpisodeService) {
+  currentSentence?: Sentence;
+
+ 
+  constructor(private sentenceService: SentenceService) {
   }
 
   ngOnInit(): void {
   }
 
-  getEpisodes(): void {
-    this.episodeService.getEpisodes().subscribe(
-      episodes => this.episodes = episodes);
+  onStart(): void {
+    console.log('on start');
+    this.currentSentence = this.sentenceService.randomSentence();
+    console.log(this.currentSentence);
   }
 }

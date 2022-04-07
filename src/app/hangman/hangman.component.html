@@ -1,7 +1,17 @@
-<h1>Hangman</h1>
+<div id="main">
 
-<ul>
-    <li *ngFor="let episode of episodes">
-      {{ episode.name }}
-    </li>
-</ul>
+  <h1>XF Hangman</h1>
+
+  <section>
+    <div class="sentence">
+      {{ currentSentence?.title }}
+    </div>
+  </section>
+
+  <section>
+    <div class="start-button-row">
+      <button (click)="onStart()" mat-raised-button color="primary">Start</button>
+    </div>
+  </section>  
+
+</div>
