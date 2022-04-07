@@ -1,17 +1,59 @@
 <div id="main">
 
   <h1>XF Hangman</h1>
-
+  
   <section>
     <div class="sentence">
-      {{ currentSentence?.title }}
+      <span *ngIf="sentence$">
+        {{ sentence$ | async }}
+      </span>
     </div>
   </section>
 
   <section>
-    <div class="start-button-row">
-      <button (click)="onStart()" mat-raised-button color="primary">Start</button>
+    <div class="score">
+      {{ game.remainingMistakes }}
+    </div>
+
+    <div class="letter-buttons">
+      <div *ngFor="let letter_row of letter_rows">
+        <app-letter
+            *ngFor="let letter of letter_row" [letter]="letter" [state]="stateSubject.asObservable()" (guessed)="onGuess($event)">
+        </app-letter>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <span *ngIf="game.remainingMistakes == 0">
+      <div class="start-button-row">
+        <button (click)="onStart()" mat-raised-button color="primary">New Game!</button>
+      </div>
+    </span>
+  </section>
+
+  <section>
+    <div class="instructions">
+      The sentences are either names of the episodes, movies and characters, or tag lines.
+      There are {{ amount_of_sentences }} separate sentences to guess from. (Database not yet complete at the moment.)
     </div>
   </section>  
+
+  <section>
+    <div class="backlog">
+      Todo:
+      <ul>
+        <li>Do not offer same sentence twice</li>
+        <li>Graphics (hangman)</li>
+        <li>App icon</li>
+        <li>Cathcy name for the game!</li>
+        <li>Scoring system</li>
+        <li>Show hint? (deduct points)</li>
+        <li>Live score board</li>
+        <li>Statistics? How many times played, etc</li>
+        <li>Auth.. proteticting the database</li>
+      </ul>
+    </div>
+  </section>
 
 </div>

@@ -2,7 +2,6 @@
     margin: 25px;
 }
 
-
 h1 {
     font: 30px verdana, sans-serif;
 }
@@ -14,10 +13,38 @@ section {
 .sentence {
     margin: 25px;
     margin-left: 50px;
+    white-space: pre;
     font: 60px verdana, sans-serif;
 }
 
+.score {
+    float: right;
+    margin-top: 50px;
+    margin-left: 50px;
+    font: 150px verdana, sans-serif;
+}
+
+.instructions {
+    margin: 25px;
+}
+
+.backlog {
+    margin: 25px;
+}
+
+.letter-buttons {
+    margin: 25px;
+    margin-left: 50px;
+    margin-top: 50px;
+    width: 1000px;
+}
+
 .start-button-row {
+    display: table-cell;
+    width: 490px;
+}
+
+.next-button-row {
     display: table-cell;
     width: 490px;
 }

@@ -10,11 +10,13 @@ import { AppComponent } from './app.component';
 import { HangmanComponent } from './hangman/hangman.component';
 import { environment } from '../environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LetterComponent } from './letter/letter.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HangmanComponent
+    HangmanComponent,
+    LetterComponent
   ],
   imports: [
     BrowserModule,

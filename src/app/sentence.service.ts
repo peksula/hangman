@@ -1,6 +1,6 @@
 
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import {
   Firestore, addDoc, collection, collectionData
   //doc, docData, deleteDoc, updateDoc, DocumentReference, setDoc
@@ -19,6 +19,7 @@ import { Sentence } from './models/sentence';
 export class SentenceService {
 
   sentences: Sentence[] = [];
+  initialized = new Subject<number>();
 
   constructor(private firestoreService: FirestoreService) {
     this.getSentences();
@@ -28,13 +29,12 @@ export class SentenceService {
     this.firestoreService.getSentences().subscribe(
       sentences => {
         this.sentences = sentences;
-        console.log(this.sentences);
+        this.initialized.next(this.sentences.length);
       });
   }
 
   randomSentence(): Sentence {
     const random = this.randomNumber(this.sentences.length);
-    console.log('random number ' + random);
     return this.sentences[random];
   }
 
