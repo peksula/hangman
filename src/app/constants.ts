@@ -1,6 +1,7 @@
 export class HangmanConstants
 {
     static readonly ALLOWED_MISTAKES = 6;
+    static readonly ALLOWED_HELPS = 5;
     static readonly LETTERS = [
         ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'],
         ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
@@ -9,4 +10,5 @@ export class HangmanConstants
     ]
     static readonly POINTS_FOR_LETTER = 1;
     static readonly POINTS_FOR_SENTENCE = 5;
+    static readonly HELP_PENALTY = 3;
 };

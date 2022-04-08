@@ -31,12 +31,16 @@ section {
 }
 
 .score {
+    margin-top: 50px;
     width: 1000px;
 }
 
+.help {
+    float: right;
+}
 
-.instructions {
-    margin: 25px;
+.help-text {
+    font: 20px verdana, sans-serif;
 }
 
 .backlog {

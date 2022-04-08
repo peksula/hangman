@@ -33,25 +33,32 @@
   </section>
 
   <section>
-    <div class="instructions">
-      The sentences are either names of the episodes, movies and characters, or tag lines.
-      There are {{ amount_of_sentences }} separate sentences to guess from. (Database not yet complete at the moment.)
-
-      You get 
-    </div>
-  </section>
-
-  <section>
     <div class="high-scores">
       <app-high-scores></app-high-scores>
     </div>
+    <div class="help">
+      <mat-card>
+        <mat-card-title>Instructions</mat-card-title>
+        <mat-card-subtitle>The sentences are either names of the episodes, movies and characters, or tag lines.</mat-card-subtitle>
+        <mat-card-content>
+          If you need help you can use the Help button {{ game.remainingHelp }} times.
+          Each use costs you {{ game.helpPenalty }} pts.
+          <div class="help-text">
+            {{ helpText }}
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button (click)="onHelp()" mat-raised-button color="primary" [disabled]="game.remainingHelp==0">Help me!</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>      
+  </section>
+
+  <section>
     <div class="score">
       <app-score [game]="game">
       </app-score>
     </div>
-  </section>
-
-  <section>
     <div class="backlog">
       Five questions of Hangman:
       <ol>
@@ -66,9 +73,7 @@
       <ul>
         <li>Do not offer same sentence twice</li>
         <li>Graphics (hangman)</li>
-        <li>App icon</li>
         <li>Cathcy name for the game!</li>
-        <li>Show hint? (deduct points)</li>
         <li>Live score board</li>
         <li>Statistics? How many times played, etc</li>
         <li>Auth.. proteticting the database</li>

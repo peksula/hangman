@@ -1,16 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
-import { Game } from './game';
-
+import { Subject } from 'rxjs';
 import { Sentence } from './models/sentence';
 
 @Injectable({
   providedIn: 'root'
 })
-export class GameService {
+export class GuessService {
   sentence?: Sentence;
-  sentenceSubject = new Subject<string>();
-  completeSubject = new Subject<Sentence>();
+  formattedSentenceSubject = new Subject<string>();
+  successSubject = new Subject<Sentence>();
   guesses: string[] = [];
   unmasked: string[] = [' ', '-', '.']
 
@@ -19,7 +17,6 @@ export class GameService {
 
   setSentence(sentence: Sentence) {
     this.sentence = sentence;
-    console.log(sentence.title);
     this.guesses = [];
     this.format();
   }
@@ -39,6 +36,8 @@ export class GameService {
   }
 
   private comparable(): string {
+    // Converts the sentence into upper case format,
+    // so that the uppercased letters can be matched against it
     return this.sentence?.title.toUpperCase() || '';
   }
 
@@ -50,7 +49,7 @@ export class GameService {
       }
     })
     if (allLetters && this.sentence !== undefined) {
-      this.completeSubject.next(this.sentence);
+      this.successSubject.next(this.sentence);
     }
   }
 
@@ -62,18 +61,7 @@ export class GameService {
       } else {
         formatted.push('_ ');
       }
-
     });
-    this.sentenceSubject.next(formatted.join(''));
+    this.formattedSentenceSubject.next(formatted.join(''));
   }
-
-  completeObservable(): Observable<Sentence> {
-    return this.completeSubject.asObservable();
-  }
-
-  sentenceObservable(): Observable<string> {
-    return this.sentenceSubject.asObservable();
-  }
-
-
 }

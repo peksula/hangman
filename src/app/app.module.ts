@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
 
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
@@ -32,6 +33,7 @@ import { HighScoresComponent } from './high-scores/high-scores.component';
     BrowserAnimationsModule,
     MatButtonModule,
     MatCardModule,
+    MatExpansionModule,
     MatListModule
   ],
   providers: [],

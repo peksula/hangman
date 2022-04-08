@@ -7,11 +7,16 @@ export class Game
     mistakes: number;
     points: number;
     remainingMistakes: number;
-    
+    helpsUsed: number;
+    remainingHelp: number;
+    helpPenalty: number = HangmanConstants.HELP_PENALTY;
+
     constructor() {
+        this.helpsUsed = 0;
         this.mistakes = 0;
         this.points = 0;
         this.remainingMistakes = HangmanConstants.ALLOWED_MISTAKES;
+        this.remainingHelp = HangmanConstants.ALLOWED_HELPS;
     }
 
     isOver(): boolean {
@@ -21,6 +26,16 @@ export class Game
             return true;
         }
         return false;
+    }
+
+    help() {
+        this.helpsUsed++;
+        this.remainingHelp--;
+        this.points -= HangmanConstants.HELP_PENALTY;
+    }
+
+    canHelp(): boolean {
+        return this.remainingHelp > 0;
     }
 
     letterGuessedCorrectly(letter: string) {
