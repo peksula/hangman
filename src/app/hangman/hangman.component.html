@@ -11,7 +11,7 @@
   </section>
 
   <section>
-    <div class="score">
+    <div class="hangman">
       {{ game.remainingMistakes }}
     </div>
 
@@ -36,18 +36,38 @@
     <div class="instructions">
       The sentences are either names of the episodes, movies and characters, or tag lines.
       There are {{ amount_of_sentences }} separate sentences to guess from. (Database not yet complete at the moment.)
+
+      You get 
     </div>
-  </section>  
+  </section>
+
+  <section>
+    <div class="high-scores">
+      <app-high-scores></app-high-scores>
+    </div>
+    <div class="score">
+      <app-score [game]="game">
+      </app-score>
+    </div>
+  </section>
 
   <section>
     <div class="backlog">
-      Todo:
+      Five questions of Hangman:
+      <ol>
+        <li>Does it work in your browser?</li>
+        <li>Is it too difficult? Or easy?</li>
+        <li>Is it easy and intuitive to use?</li>
+        <li>What do you like?</li>
+        <li>What do you dislike?</li>
+      </ol>
+
+      Still to be done:
       <ul>
         <li>Do not offer same sentence twice</li>
         <li>Graphics (hangman)</li>
         <li>App icon</li>
         <li>Cathcy name for the game!</li>
-        <li>Scoring system</li>
         <li>Show hint? (deduct points)</li>
         <li>Live score board</li>
         <li>Statistics? How many times played, etc</li>

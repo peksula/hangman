@@ -1,0 +1,7 @@
+.score-card {
+    max-width: 400px;
+  }
+  
+.game-points {
+    font: 40px verdana, sans-serif;
+}
