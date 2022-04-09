@@ -6,6 +6,9 @@
 
   <mat-card-content>
     <div class="game-points">{{ game.points }}</div>
+    <div class="game-status" *ngIf="game.totalSentences > 0">
+      Progress: {{ game.correctSentences.length }} / {{ game.totalSentences }}
+    </div>
     <hr/>
     <mat-list *ngFor="let sentence of game.correctSentences">
       <mat-list-item> {{ sentence.title }} </mat-list-item>

@@ -15,8 +15,8 @@ import { Sentence } from '../models/sentence';
 })
 export class HangmanComponent implements OnInit, OnDestroy {
 
-  game: Game;
-  state: GameState = GameState.START;
+  game!: Game;
+  state: GameState = GameState.STARTED;
   currentSentence!: Sentence;
   formattedSentence$: Observable<string>;
   helpText!: string;
@@ -26,12 +26,12 @@ export class HangmanComponent implements OnInit, OnDestroy {
   constructor(
     private guessService: GuessService,
     private sentenceService: SentenceService) {
-      this.game = new Game();
       this.formattedSentence$ = this.guessService.formattedSentenceSubject.asObservable();
   }
 
   ngOnInit(): void {
-    this.changeState(GameState.START);
+    this.game = new Game(this.sentenceService.totalSentences);
+    this.changeState(GameState.STARTED);
     this.observeCompleted();
   }
 
@@ -45,15 +45,18 @@ export class HangmanComponent implements OnInit, OnDestroy {
 
   private observeCompleted(): void {
     this.guessService.successSubject.asObservable().subscribe((sentence) => {
-      this.changeState(GameState.GUSSED_SENCENCE);
+      this.changeState(GameState.GUESSED_SENCENCE);
       this.game.senteceGuessedCorrectly(sentence);
     });
   }
 
   newSentence(): void {
     this.changeState(GameState.GUESSING_SENTENCE);
-    this.currentSentence = this.sentenceService.randomSentence();
-    this.guessService.setSentence(this.currentSentence);
+    const nextSentence = this.sentenceService.randomSentence();
+    if (nextSentence) {
+      this.currentSentence = nextSentence;
+      this.guessService.setSentence(nextSentence);
+    }
     this.helpText = '';
   }
   
@@ -62,7 +65,7 @@ export class HangmanComponent implements OnInit, OnDestroy {
   }
 
   onStart(): void {
-    this.game = new Game();
+    this.game = new Game(this.sentenceService.totalSentences);
     this.newSentence();
   }
 
@@ -77,9 +80,14 @@ export class HangmanComponent implements OnInit, OnDestroy {
     } else {
       this.game.letterGuessedIncorrectly();
     }
-    if (this.game.isOver()) {
-      this.changeState(GameState.GAME_OVER);
+    if (this.game.failed()) {
+      this.changeState(GameState.FAILED);
       this.helpText = this.currentSentence.title;
     }
+    if (this.game.completed()) {
+      this.changeState(GameState.COMPLETED);
+      this.helpText = "Game completed!!! Congratulations, you are a dark wizard!";
+    }
+
   }  
 }

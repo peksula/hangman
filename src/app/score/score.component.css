@@ -2,6 +2,10 @@
   font: 40px verdana, sans-serif;
 }
 
+.game-status {
+  font: 10px verdana, sans-serif;
+}
+
 .score-card {
   max-width: 400px;
 }

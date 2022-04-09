@@ -13,17 +13,26 @@ export class Game
     helpPenalty: number = HangmanConstants.HELP_PENALTY;
     pointsPerLetter: number =HangmanConstants.POINTS_FOR_LETTER;
     pointsPerSentence: number =HangmanConstants.POINTS_FOR_SENTENCE;
+    totalSentences: number = 0;
 
-    constructor() {
+    constructor(totalSentences: number) {
         this.helpsUsed = 0;
         this.mistakes = 0;
         this.points = 0;
         this.remainingMistakes = HangmanConstants.ALLOWED_MISTAKES;
         this.remainingHelp = HangmanConstants.ALLOWED_HELPS;
+        this.totalSentences = totalSentences;
+        this.correctSentences = [];
     }
 
-    isOver(): boolean {
-        // Returns true if game is over
+    completed(): boolean {
+        if ((this.correctSentences.length == this.totalSentences) && this.totalSentences != 0) {
+            return true;
+        }
+        return false;
+    }
+
+    failed(): boolean {
         if (this.mistakes == HangmanConstants.ALLOWED_MISTAKES) {
             return true;
         }
@@ -34,10 +43,6 @@ export class Game
         this.helpsUsed++;
         this.remainingHelp--;
         this.points -= HangmanConstants.HELP_PENALTY;
-    }
-
-    canHelp(): boolean {
-        return this.remainingHelp > 0;
     }
 
     letterGuessedCorrectly(letter: string) {
