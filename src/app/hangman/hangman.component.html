@@ -4,9 +4,12 @@
   
   <section>
     <div class="sentence">
-      <span *ngIf="sentence$">
-        {{ sentence$ | async }}
+      <span *ngIf="formattedSentence$">
+        {{ formattedSentence$ | async }}
       </span>
+    </div>
+    <div class="help-text">
+      {{ helpText }}
     </div>
   </section>
 
@@ -16,7 +19,7 @@
     </div>
 
     <div class="letter-buttons">
-      <div *ngFor="let letter_row of letter_rows">
+      <div *ngFor="let letter_row of lettersRows">
         <app-letter
             *ngFor="let letter of letter_row" [letter]="letter" [state]="stateSubject.asObservable()" (guessed)="onGuess($event)">
         </app-letter>
@@ -25,9 +28,17 @@
   </section>
 
   <section>
-    <span *ngIf="game.remainingMistakes == 0">
-      <div class="start-button-row">
-        <button (click)="onStart()" mat-raised-button color="primary">New Game!</button>
+    <span>
+      <div class="button-row">
+        <button class="control-button" *ngIf="state == 1 || state == 4" (click)="onStart()" mat-raised-button color="primary">
+          New Game!
+        </button>
+        <button class="control-button" *ngIf="state == 3" (click)="onNext()" mat-raised-button color="primary">
+          Next!
+        </button>
+        <button class="control-button" *ngIf="state == 2" (click)="onHelp()" mat-raised-button color="primary" [disabled]="game.remainingHelp==0">
+          Help me! ({{ game.remainingHelp }})
+        </button>
       </div>
     </span>
   </section>
@@ -36,21 +47,20 @@
     <div class="high-scores">
       <app-high-scores></app-high-scores>
     </div>
-    <div class="help">
-      <mat-card>
-        <mat-card-title>Instructions</mat-card-title>
-        <mat-card-subtitle>The sentences are either names of the episodes, movies and characters, or tag lines.</mat-card-subtitle>
-        <mat-card-content>
-          If you need help you can use the Help button {{ game.remainingHelp }} times.
-          Each use costs you {{ game.helpPenalty }} pts.
-          <div class="help-text">
-            {{ helpText }}
-          </div>
-        </mat-card-content>
-        <mat-card-actions>
-          <button (click)="onHelp()" mat-raised-button color="primary" [disabled]="game.remainingHelp==0">Help me!</button>
-        </mat-card-actions>
-      </mat-card>
+
+    <div class="Instructions">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Instructions</mat-panel-title>
+          <mat-panel-description>The sentences are the English names of the episodes and the two movies.</mat-panel-description>
+        </mat-expansion-panel-header>
+        <ul>
+          <li>You get {{ game.pointsPerLetter }} pts for correct guessed letter</li>
+          <li>You get bonus {{ game.pointsPerSentence }} pts for completing each episode</li>
+          <li>You can use the Help button {{ game.helpCanBeUsed }} times</li>
+          <li>Each use of Help costs you {{ game.helpPenalty }} pts</li>
+        </ul>
+      </mat-expansion-panel>      
     </div>      
   </section>
 
@@ -60,15 +70,6 @@
       </app-score>
     </div>
     <div class="backlog">
-      Five questions of Hangman:
-      <ol>
-        <li>Does it work in your browser?</li>
-        <li>Is it too difficult? Or easy?</li>
-        <li>Is it easy and intuitive to use?</li>
-        <li>What do you like?</li>
-        <li>What do you dislike?</li>
-      </ol>
-
       Still to be done:
       <ul>
         <li>Do not offer same sentence twice</li>
@@ -78,6 +79,13 @@
         <li>Statistics? How many times played, etc</li>
         <li>Auth.. proteticting the database</li>
       </ul>
+    </div>
+  </section>
+
+  <section>
+    <div class="i-made-this">
+      I made this! @xfpekka, 2022<br>
+      v.0.2, April 9th
     </div>
   </section>
 

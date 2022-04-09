@@ -6,10 +6,6 @@ import {
   //doc, docData, deleteDoc, updateDoc, DocumentReference, setDoc
 } from '@angular/fire/firestore';
 
-import { of, from } from 'rxjs';
-import { map, tap } from 'rxjs/operators'
-
-
 import { FirestoreService} from './firestore.service';
 import { Sentence } from './models/sentence';
 
@@ -19,7 +15,7 @@ import { Sentence } from './models/sentence';
 export class SentenceService {
 
   sentences: Sentence[] = [];
-  initialized = new Subject<number>();
+  sentenceSubject = new Subject<Sentence>();
 
   constructor(private firestoreService: FirestoreService) {
     this.getSentences();
@@ -29,13 +25,18 @@ export class SentenceService {
     this.firestoreService.getSentences().subscribe(
       sentences => {
         this.sentences = sentences;
-        this.initialized.next(this.sentences.length);
       });
+  }
+
+  sentenceObservable(): Observable<Sentence> {
+    return this.sentenceSubject.asObservable();
   }
 
   randomSentence(): Sentence {
     const random = this.randomNumber(this.sentences.length);
-    return this.sentences[random];
+    const randomSentence = this.sentences[random];
+    this.sentenceSubject.next(randomSentence);
+    return randomSentence;
   }
 
   private randomNumber(max: number): number {

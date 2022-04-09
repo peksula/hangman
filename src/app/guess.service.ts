@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { HangmanConstants } from './constants';
 import { Sentence } from './models/sentence';
 
 @Injectable({
@@ -10,7 +11,6 @@ export class GuessService {
   formattedSentenceSubject = new Subject<string>();
   successSubject = new Subject<Sentence>();
   guesses: string[] = [];
-  unmasked: string[] = [' ', '-', '.']
 
   constructor() {
   }
@@ -44,7 +44,7 @@ export class GuessService {
   private checkIfcompleted(): void {
     let allLetters: boolean = true;
     this.comparable().split('').forEach(letter => {
-      if (!this.guesses.includes(letter) && !this.unmasked.includes(letter)) {
+      if (!this.guesses.includes(letter) && !HangmanConstants.UNMASKED_LETTERS.includes(letter)) {
         allLetters = false;
       }
     })
@@ -56,7 +56,7 @@ export class GuessService {
   format(): void {
     let formatted: string[] = [];
     this.comparable().split('').forEach(letter => {
-      if (this.guesses.includes(letter) || this.unmasked.includes(letter)) {
+      if (this.guesses.includes(letter) || HangmanConstants.UNMASKED_LETTERS.includes(letter)) {
         formatted.push(letter + ' ');
       } else {
         formatted.push('_ ');
