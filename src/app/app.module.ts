@@ -16,6 +16,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LetterComponent } from './letter/letter.component';
 import { ScoreComponent } from './score/score.component';
 import { HighScoresComponent } from './high-scores/high-scores.component';
+import { InstructionsComponent } from './instructions/instructions.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { HighScoresComponent } from './high-scores/high-scores.component';
     HangmanComponent,
     LetterComponent,
     ScoreComponent,
-    HighScoresComponent
+    HighScoresComponent,
+    InstructionsComponent
   ],
   imports: [
     BrowserModule,

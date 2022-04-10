@@ -9,7 +9,6 @@ import { Sentence } from './models/sentence';
 export class GuessService {
   sentence?: Sentence;
   formattedSentenceSubject = new Subject<string>();
-  successSubject = new Subject<Sentence>();
   guesses: string[] = [];
 
   constructor() {
@@ -22,6 +21,7 @@ export class GuessService {
   }
 
   guess(letter: string): boolean {
+    // Returns true if the guess was correct
     if (!this.guesses.includes(letter)) {
       this.guesses.push(letter);
     }
@@ -29,10 +29,21 @@ export class GuessService {
     if (!this.comparable().includes(letter)) {
       return false;
     }
-    else{
-      this.checkIfcompleted();
-      return true;
-    }
+    return true;
+  }
+
+  completed(): boolean {
+    let completed: boolean = true;
+    this.comparable().split('').forEach(letter => {
+      if(!this.knownLetters().includes(letter)) {
+        completed = false;
+      }
+    });
+    return completed;
+  }
+
+  private knownLetters(): string[] {
+    return [...this.guesses, ...HangmanConstants.UNMASKED_LETTERS];
   }
 
   private comparable(): string {
@@ -41,24 +52,14 @@ export class GuessService {
     return this.sentence?.title.toUpperCase() || '';
   }
 
-  private checkIfcompleted(): void {
-    let allLetters: boolean = true;
-    this.comparable().split('').forEach(letter => {
-      if (!this.guesses.includes(letter) && !HangmanConstants.UNMASKED_LETTERS.includes(letter)) {
-        allLetters = false;
-      }
-    })
-    if (allLetters && this.sentence !== undefined) {
-      this.successSubject.next(this.sentence);
-    }
-  }
-
-  format(): void {
+  private format(): void {
+    // Formats the string for the presentation
     let formatted: string[] = [];
     this.comparable().split('').forEach(letter => {
-      if (this.guesses.includes(letter) || HangmanConstants.UNMASKED_LETTERS.includes(letter)) {
+      if(this.knownLetters().includes(letter)) {
         formatted.push(letter + ' ');
       } else {
+        // Show underscore in place of the letter
         formatted.push('_ ');
       }
     });

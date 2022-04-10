@@ -1,0 +1,14 @@
+<mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>Instructions</mat-panel-title>
+      <mat-panel-description>The sentences are the English names of the episodes and of the two movies.</mat-panel-description>
+    </mat-expansion-panel-header>
+    Each title is asked you only once, but they are asked randomized order.<br>
+    If you manage to guess all the titles correctly, the game ends.
+    <ul>
+      <li>You get {{ game.scoring.pointsPerLetter }} pts for correctly guessed letter</li>
+      <li>You get a bonus {{ game.scoring.pointsPerSentence }} pts for completing each title</li>
+      <li>You can use the Help button {{ game.help.max }} times</li>
+      <li>Each use of Help costs you {{ game.scoring.helpPenalty }} pts</li>
+    </ul>
+  </mat-expansion-panel>      

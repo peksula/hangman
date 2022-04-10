@@ -1,63 +1,86 @@
+import { Observable, Subject } from 'rxjs';
 import { HangmanConstants } from './constants';
+import { GameState } from './models/state';
+import { Help } from './help';
+import { Mistake } from './mistake';
+import { Scoring } from './scoring';
 import { Sentence } from './models/sentence';
 
 export class Game
 {
+    currentSentence!: Sentence;
     correctSentences: Sentence[] = [];
-    mistakes: number;
-    points: number;
-    remainingMistakes: number;
-    helpsUsed: number;
-    remainingHelp: number;
-    helpCanBeUsed: number = HangmanConstants.ALLOWED_HELPS; 
-    helpPenalty: number = HangmanConstants.HELP_PENALTY;
-    pointsPerLetter: number =HangmanConstants.POINTS_FOR_LETTER;
-    pointsPerSentence: number =HangmanConstants.POINTS_FOR_SENTENCE;
+    help: Help;
+    scoring: Scoring;
+    mistake: Mistake;
     totalSentences: number = 0;
+    state: GameState = GameState.STARTED;
+    stateSubject: Subject<GameState> = new Subject<GameState>();    
 
-    constructor(totalSentences: number) {
-        this.helpsUsed = 0;
-        this.mistakes = 0;
-        this.points = 0;
-        this.remainingMistakes = HangmanConstants.ALLOWED_MISTAKES;
-        this.remainingHelp = HangmanConstants.ALLOWED_HELPS;
-        this.totalSentences = totalSentences;
+    constructor() {
+        this.help = new Help();
+        this.scoring = new Scoring();
+        this.mistake = new Mistake();;
+    }
+
+    newGame(totalSentences: number) {
+        this.help = new Help();
+        this.mistake = new Mistake();;
+        this.scoring = new Scoring();
+        this.totalSentences = 0;
         this.correctSentences = [];
+        this.totalSentences = totalSentences;
+        this.changeState(GameState.STARTED);
     }
 
     completed(): boolean {
         if ((this.correctSentences.length == this.totalSentences) && this.totalSentences != 0) {
+            this.changeState(GameState.COMPLETED);
             return true;
         }
-        return false;
+        return false; 
     }
 
     failed(): boolean {
-        if (this.mistakes == HangmanConstants.ALLOWED_MISTAKES) {
+        if (this.mistake.remaining == 0) {
+            this.changeState(GameState.FAILED);
             return true;
         }
         return false;
     }
 
     helpRequested() {
-        this.helpsUsed++;
-        this.remainingHelp--;
-        this.points -= HangmanConstants.HELP_PENALTY;
+        this.help.requested(this.currentSentence);
+        this.scoring.helpUsed();
     }
 
-    letterGuessedCorrectly(letter: string) {
-        this.points += HangmanConstants.POINTS_FOR_LETTER;
+    newSentence(sentence: Sentence) {
+        this.currentSentence = sentence;
+        this.help.clear();
+        this.changeState(GameState.GUESSING_SENTENCE);
     }
 
-    letterGuessedIncorrectly() {
-        this.mistakes += 1;
-        this.remainingMistakes -= 1;
+    registerGuess(letter: string, correctGuess: boolean) {
+        if (correctGuess) {
+            this.scoring.correctLetter();
+        } else  {
+            this.mistake.made();
+        }
     }
 
-    senteceGuessedCorrectly(sentence: Sentence) {
-        this.mistakes = 0;
-        this.remainingMistakes = HangmanConstants.ALLOWED_MISTAKES;
-        this.correctSentences.push(sentence);
-        this.points += HangmanConstants.POINTS_FOR_SENTENCE;
+    sentenceCompleted() {
+        this.mistake.reset();
+        this.correctSentences.push(this.currentSentence);
+        this.scoring.correctSentence();
+        this.changeState(GameState.GUESSED_SENCENCE);
     }
+
+    stateObservable(): Observable<GameState> {
+        return this.stateSubject.asObservable();
+    }
+
+    private changeState(state: GameState) {
+        this.state = state;
+        this.stateSubject.next(state);
+      }    
 };

@@ -9,19 +9,22 @@
       </span>
     </div>
     <div class="help-text">
-      {{ helpText }}
+      {{ game.help.text }}
+    </div>
+    <div class="message">
+      {{ message }}
     </div>
   </section>
 
   <section>
     <div class="hangman">
-      {{ game.remainingMistakes }}
+      {{ game.mistake.remaining }}
     </div>
 
     <div class="letter-buttons">
       <div *ngFor="let letter_row of lettersRows">
         <app-letter
-            *ngFor="let letter of letter_row" [letter]="letter" [state]="stateSubject.asObservable()" (guessed)="onGuess($event)">
+            *ngFor="let letter of letter_row" [letter]="letter" [game]="game" (guessed)="onGuess($event)">
         </app-letter>
       </div>
     </div>
@@ -30,14 +33,14 @@
   <section>
     <span>
       <div class="button-row">
-        <button class="control-button" *ngIf="state == 1 || state == 4" (click)="onStart()" mat-raised-button color="primary">
+        <button class="control-button" *ngIf="game.state == 1 || game.state == 4" (click)="onStart()" mat-raised-button color="primary">
           New Game!
         </button>
-        <button class="control-button" *ngIf="state == 3" (click)="onNext()" mat-raised-button color="primary">
+        <button class="control-button" *ngIf="game.state == 3" (click)="onNext()" mat-raised-button color="primary">
           Next!
         </button>
-        <button class="control-button" *ngIf="state == 2" (click)="onHelp()" mat-raised-button color="primary" [disabled]="game.remainingHelp==0">
-          Help me! ({{ game.remainingHelp }})
+        <button class="control-button" *ngIf="game.state == 2" (click)="onHelp()" mat-raised-button color="primary" [disabled]="game.help.remaining==0">
+          Help me! ({{ game.help.remaining }})
         </button>
       </div>
     </span>
@@ -49,20 +52,8 @@
     </div>
 
     <div class="Instructions">
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>Instructions</mat-panel-title>
-          <mat-panel-description>The sentences are the English names of the episodes and the two movies.</mat-panel-description>
-        </mat-expansion-panel-header>
-        Each title is asked you only once, but in randomized order. If you guess them all correctly, the game ends.
-        <ul>
-          <li>You get {{ game.pointsPerLetter }} pts for correct guessed letter</li>
-          <li>You get bonus {{ game.pointsPerSentence }} pts for completing each episode</li>
-          <li>You can use the Help button {{ game.helpCanBeUsed }} times</li>
-          <li>Each use of Help costs you {{ game.helpPenalty }} pts</li>
-        </ul>
-      </mat-expansion-panel>      
-    </div>      
+        <app-instructions [game]="game"></app-instructions>
+    </div>
   </section>
 
   <section>
@@ -77,8 +68,8 @@
   <section>
     <div class="i-made-this">
       I made this! @xfpekka, 2022<br>
-      v.0.2, April 9th.<br>
-      Game engine: done. Graphics, scores, stats: later.<br>
+      v.0.3, April 10th.<br>
+      Still in progress.<br>
     </div>
   </section>
 

@@ -14,80 +14,73 @@ import { Sentence } from '../models/sentence';
   styleUrls: ['./hangman.component.css']
 })
 export class HangmanComponent implements OnInit, OnDestroy {
-
-  game!: Game;
-  state: GameState = GameState.STARTED;
-  currentSentence!: Sentence;
+  game: Game;
+  message: string = '';
   formattedSentence$: Observable<string>;
-  helpText!: string;
   lettersRows = HangmanConstants.LETTERS;
-  stateSubject: Subject<GameState> = new Subject<GameState>();
 
   constructor(
     private guessService: GuessService,
     private sentenceService: SentenceService) {
+      this.game = new Game();
       this.formattedSentence$ = this.guessService.formattedSentenceSubject.asObservable();
   }
 
   ngOnInit(): void {
-    this.game = new Game(this.sentenceService.totalSentences);
-    this.changeState(GameState.STARTED);
-    this.observeCompleted();
   }
 
   ngOnDestroy() {
   }
 
-  private changeState(state: GameState) {
-    this.state = state;
-    this.stateSubject.next(state);
-  }
-
-  private observeCompleted(): void {
-    this.guessService.successSubject.asObservable().subscribe((sentence) => {
-      this.changeState(GameState.GUESSED_SENCENCE);
-      this.game.senteceGuessedCorrectly(sentence);
-    });
-  }
-
   newSentence(): void {
-    this.changeState(GameState.GUESSING_SENTENCE);
-    const nextSentence = this.sentenceService.randomSentence();
-    if (nextSentence) {
-      this.currentSentence = nextSentence;
-      this.guessService.setSentence(nextSentence);
+    const sentence = this.sentenceService.randomSentence();
+    if (sentence) {
+      this.game.newSentence(sentence);
+      this.guessService.setSentence(sentence);
     }
-    this.helpText = '';
   }
-  
+
+  onGuess(letter: string) {
+    this.handleGuess(this.guessService.guess(letter), letter);
+    this.hasGameCompleted();
+    this.hasGameFailed();
+  }
+
+  onHelp(): void {
+    this.game.helpRequested();
+  }
+
   onNext(): void {
     this.newSentence();
   }
 
   onStart(): void {
-    this.game = new Game(this.sentenceService.totalSentences);
+    this.game.newGame(this.sentenceService.totalSentences);
+    this.message = '';
     this.newSentence();
-  }
-
-  onHelp(): void {
-    this.game.helpRequested();
-    this.helpText = this.currentSentence.help || this.currentSentence.category;
-  }
-
-  onGuess(letter: string) {
-    if (this.guessService.guess(letter)) {
-      this.game.letterGuessedCorrectly(letter);
-    } else {
-      this.game.letterGuessedIncorrectly();
-    }
-    if (this.game.failed()) {
-      this.changeState(GameState.FAILED);
-      this.helpText = this.currentSentence.title;
-    }
-    if (this.game.completed()) {
-      this.changeState(GameState.COMPLETED);
-      this.helpText = "Game completed!!! Congratulations, you are a dark wizard!";
-    }
-
   }  
+
+  private handleGuess(correctGuess: boolean, guessedLetter: string) {
+    this.game.registerGuess(guessedLetter, correctGuess);
+    this.hasSentenceCompleted();
+  }
+
+  private hasGameCompleted() {
+    if (this.game.completed()) {
+      this.message = "Game completed!!! Congratulations, you are a dark wizard!";
+    }
+  }
+
+  private hasGameFailed() {
+    if (this.game.failed()) {
+      this.message = this.game.currentSentence.title;
+    }
+  }
+
+  private hasSentenceCompleted() {
+    if (this.guessService.completed()) {
+      this.game.sentenceCompleted();
+    }
+  }
+  
 }

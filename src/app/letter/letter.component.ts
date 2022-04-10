@@ -1,5 +1,6 @@
 import { Observable, Subscription  } from 'rxjs';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Game } from '../game';
 import { GameState } from '../models/state';
 
 @Component({
@@ -9,16 +10,18 @@ import { GameState } from '../models/state';
 })
 export class LetterComponent implements OnInit, OnDestroy {
 
-  private subscription!: Subscription;
-  @Input() state!: Observable<GameState>;
+  @Input() game!: Game;
   @Input() letter!: string;
   @Output() guessed = new EventEmitter<string>();
   disabled: boolean = true;
+  private subscription!: Subscription;
 
   constructor() { }
 
   ngOnInit(): void {
-    this.subscription = this.state.subscribe((state) => this.onStateChange(state));
+    this.subscription = this.game.stateObservable().subscribe(
+      (state) => this.onStateChange(state)
+    );
   }
 
   ngOnDestroy() {
@@ -31,7 +34,7 @@ export class LetterComponent implements OnInit, OnDestroy {
   }  
 
   private onStateChange(state: GameState) {
-    if (state == GameState.GUESSING_SENTENCE) {
+    if (state == GameState.GUESSING_SENTENCE || state == GameState.STARTED) {
       this.disabled = false;
     } else if (state == GameState.FAILED || state == GameState.COMPLETED) {
       this.disabled = true;

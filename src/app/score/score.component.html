@@ -5,7 +5,7 @@
   </mat-card-header>
 
   <mat-card-content>
-    <div class="game-points">{{ game.points }}</div>
+    <div class="game-points">{{ game.scoring.score }}</div>
     <div class="game-status" *ngIf="game.totalSentences > 0">
       Progress: {{ game.correctSentences.length }} / {{ game.totalSentences }}
     </div>
