@@ -6,7 +6,7 @@ import {
   //doc, docData, deleteDoc, updateDoc, DocumentReference, setDoc
 } from '@angular/fire/firestore';
 
-import { Sentence } from './models/sentence';
+import { Sentence } from '../interfaces/sentence';
 
 @Injectable({
   providedIn: 'root'

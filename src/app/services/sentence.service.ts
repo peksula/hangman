@@ -1,13 +1,13 @@
 
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import {
   Firestore, addDoc, collection, collectionData
   //doc, docData, deleteDoc, updateDoc, DocumentReference, setDoc
 } from '@angular/fire/firestore';
 
 import { FirestoreService} from './firestore.service';
-import { Sentence } from './models/sentence';
+import { Sentence } from '../interfaces/sentence';
 
 @Injectable({
   providedIn: 'root'

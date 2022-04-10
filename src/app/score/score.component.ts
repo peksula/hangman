@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Game } from '../game';
+import { Game } from '../models/game';
 import { HangmanConstants } from '../constants';
 
 @Component({

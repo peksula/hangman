@@ -1,10 +1,9 @@
 import { Observable, Subject } from 'rxjs';
-import { HangmanConstants } from './constants';
-import { GameState } from './models/state';
+import { GameState } from '../interfaces/state';
 import { Help } from './help';
 import { Mistake } from './mistake';
 import { Scoring } from './scoring';
-import { Sentence } from './models/sentence';
+import { Sentence } from '../interfaces/sentence';
 
 export class Game
 {

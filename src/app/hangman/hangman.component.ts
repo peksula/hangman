@@ -1,19 +1,17 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 
-import { GuessService } from '../guess.service';
-import { SentenceService } from '../sentence.service';
-import { GameState } from '../models/state';
+import { GuessService } from '../services/guess.service';
+import { SentenceService } from '../services/sentence.service';
 import { HangmanConstants } from '../constants';
-import { Game } from '../game';
-import { Sentence } from '../models/sentence';
+import { Game } from '../models/game';
 
 @Component({
   selector: 'app-hangman',
   templateUrl: './hangman.component.html',
   styleUrls: ['./hangman.component.css']
 })
-export class HangmanComponent implements OnInit, OnDestroy {
+export class HangmanComponent implements OnInit {
   game: Game;
   message: string = '';
   formattedSentence$: Observable<string>;
@@ -27,9 +25,6 @@ export class HangmanComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-  }
-
-  ngOnDestroy() {
   }
 
   newSentence(): void {

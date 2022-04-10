@@ -1,4 +1,4 @@
-import { HangmanConstants } from './constants';
+import { HangmanConstants } from '../constants';
 
 export class Scoring
 {
