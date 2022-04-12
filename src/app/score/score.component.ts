@@ -12,7 +12,7 @@ export class ScoreComponent implements OnInit {
   pointsPerLetter: number = HangmanConstants.POINTS_FOR_LETTER;
   pointsPerSentence: number = HangmanConstants.POINTS_FOR_SENTENCE;
 
-  @Input() game!: Game;
+  @Input() game: Game = new Game();
 
   constructor() { }
 
