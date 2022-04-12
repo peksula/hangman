@@ -10,7 +10,7 @@ import { GameState } from '../interfaces/state';
 })
 export class LetterComponent implements OnInit, OnDestroy {
 
-  @Input() game!: Game;
+  @Input() game: Game = new Game();
   @Input() letter!: string;
   @Output() guessed = new EventEmitter<string>();
   disabled: boolean = true;
@@ -25,7 +25,9 @@ export class LetterComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    } 
   }
 
   onClicked(): void {

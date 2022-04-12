@@ -1,6 +1,6 @@
 
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { first } from 'rxjs/operators';
 import {
   Firestore, addDoc, collection, collectionData
   //doc, docData, deleteDoc, updateDoc, DocumentReference, setDoc
@@ -15,7 +15,6 @@ import { Sentence } from '../interfaces/sentence';
 export class SentenceService {
 
   sentences: Sentence[] = [];
-  sentenceSubject = new Subject<Sentence>();
   totalSentences: number = 0;
 
   constructor(private firestoreService: FirestoreService) {
@@ -23,11 +22,10 @@ export class SentenceService {
   }
 
   private getSentences(): void {
-    let sentences$ = this.firestoreService.getSentences().subscribe(
+    this.firestoreService.getSentences().pipe(first()).subscribe(
       sentences => {
         this.totalSentences = sentences.length;
         this.sentences = this.shuffle(sentences);
-        sentences$.unsubscribe();
       });
   }
 

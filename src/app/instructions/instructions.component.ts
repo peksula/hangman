@@ -8,7 +8,7 @@ import { Game } from '../models/game';
 })
 export class InstructionsComponent implements OnInit {
 
-  @Input() game!: Game;
+  @Input() game: Game = new Game();
 
   constructor() { }
 

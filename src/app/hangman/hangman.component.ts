@@ -12,7 +12,7 @@ import { Game } from '../models/game';
   styleUrls: ['./hangman.component.css']
 })
 export class HangmanComponent implements OnInit {
-  game: Game;
+  game: Game = new Game();
   message: string = '';
   formattedSentence$: Observable<string>;
   lettersRows = HangmanConstants.LETTERS;
@@ -20,7 +20,6 @@ export class HangmanComponent implements OnInit {
   constructor(
     private guessService: GuessService,
     private sentenceService: SentenceService) {
-      this.game = new Game();
       this.formattedSentence$ = this.guessService.formattedSentenceSubject.asObservable();
   }
 
