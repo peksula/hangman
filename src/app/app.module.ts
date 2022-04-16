@@ -17,7 +17,7 @@ import { environment } from '../environments/environment';
 import { LetterComponent } from './hangman/letter/letter.component';
 import { ScoreComponent } from './hangman/score/score.component';
 import { HighScoresComponent } from './hangman/high-scores/high-scores.component';
-import { InstructionsComponent } from './instructions/instructions.component';
+import { InstructionsComponent } from './hangman/instructions/instructions.component';
 
 @NgModule({
   declarations: [
