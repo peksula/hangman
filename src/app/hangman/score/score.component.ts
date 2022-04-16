@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Game } from '../models/game';
-import { HangmanConstants } from '../constants';
+import { Game } from '../../models/game';
+import { HangmanConstants } from '../../constants';
 
 @Component({
   selector: 'app-score',
