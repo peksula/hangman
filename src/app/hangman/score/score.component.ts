@@ -18,4 +18,14 @@ export class ScoreComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  progress() : number {
+    if (this.game.totalSentences == 0) {
+      return 0;
+    } else {
+      return Math.round(this.game.correctSentences.length / this.game.totalSentences * 100);
+    }
+  }
+
+
 }
