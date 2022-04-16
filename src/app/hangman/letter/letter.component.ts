@@ -35,7 +35,7 @@ export class LetterComponent implements OnInit, OnDestroy {
     this.guessed.emit(this.letter);
   }  
 
-  private onStateChange(state: GameState) {
+  onStateChange(state: GameState) {
     if (state == GameState.GUESSING_SENTENCE || state == GameState.STARTED) {
       this.disabled = false;
     } else if (state == GameState.FAILED || state == GameState.COMPLETED) {
