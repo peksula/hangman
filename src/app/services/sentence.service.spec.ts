@@ -11,7 +11,16 @@ describe('SentenceService', () => {
 
   const sentences = [
     {
-      title: 'my title'
+      title: 'my struggle 1'
+    } as Sentence,
+    {
+      title: 'my struggle 2'
+    } as Sentence,
+    {
+      title: 'my struggle 3'
+    } as Sentence,
+    {
+      title: 'my struggle 4'
     } as Sentence
   ];
 
@@ -31,5 +40,16 @@ describe('SentenceService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
+  });
+
+  it('provides unique sentences', () => {
+    let returned = [];
+    for (let i=0; i < sentences.length; i++) {
+      const random = service.randomSentence();
+      expect(random).toBeTruthy();
+      expect(returned.includes(random)).toBeFalse();
+      returned.push(random);
+    }
+    expect(service.randomSentence()).toBeUndefined();
   });
 });
