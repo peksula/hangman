@@ -34,6 +34,7 @@ describe('LetterComponent', () => {
       }
     });
     component.onClicked();
+    expect(component.disabled).toBeTrue();
   });
 
   it('changes to disabled state when clicked', () => {

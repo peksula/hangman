@@ -23,9 +23,14 @@ describe('Scoring', () => {
     expect(scoring.score).toEqual(HangmanConstants.POINTS_FOR_LETTER*2);
   });
 
-  it('adds to the score when correct letter guessed', () => {
+  it('adds to the score when correct sentence guessed', () => {
     scoring.correctSentence();
     expect(scoring.score).toEqual(HangmanConstants.POINTS_FOR_SENTENCE);
+  });
+
+  it('reducts the score when help used', () => {
+    scoring.helpUsed();
+    expect(scoring.score).toEqual(-HangmanConstants.HELP_PENALTY);
   });
 
 });

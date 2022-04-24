@@ -44,12 +44,14 @@ describe('SentenceService', () => {
 
   it('provides unique sentences', () => {
     let returned = [];
-    for (let i=0; i < sentences.length; i++) {
+    const length = sentences.length;
+    for (let i=0; i < length; i++) {
       const random = service.randomSentence();
       expect(random).toBeTruthy();
       expect(returned.includes(random)).toBeFalse();
       returned.push(random);
     }
-    expect(service.randomSentence()).toBeUndefined();
+    const final = service.randomSentence();
+    expect(final).toBeUndefined();
   });
 });
