@@ -1,5 +1,5 @@
 import { HangmanConstants } from '../constants';
-import { Sentence } from '../interfaces/sentence';
+import { Sentence } from './sentence';
 
 export class Help
 {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { HangmanConstants } from '../constants';
-import { Sentence } from '../interfaces/sentence';
+import { Sentence } from '../models/sentence';
 
 @Injectable({
   providedIn: 'root'

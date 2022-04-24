@@ -1,9 +1,9 @@
 import { Observable, Subject } from 'rxjs';
-import { GameState } from '../interfaces/state';
+import { GameState } from '../models/state';
 import { Help } from './help';
 import { Mistake } from './mistake';
 import { Scoring } from './scoring';
-import { Sentence } from '../interfaces/sentence';
+import { Sentence } from './sentence';
 
 export class Game
 {

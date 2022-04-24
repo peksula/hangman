@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { first } from 'rxjs/operators';
-import { GameState } from 'src/app/interfaces/state';
+import { GameState } from '../../models/state';
 
 import { LetterComponent } from './letter.component';
 
@@ -34,7 +34,6 @@ describe('LetterComponent', () => {
       }
     });
     component.onClicked();
-    expect(component.disabled).toBeTrue();
   });
 
   it('changes to disabled state when clicked', () => {
@@ -42,7 +41,6 @@ describe('LetterComponent', () => {
     component.onClicked();
     expect(component.disabled).toBeTrue();
   });
-
 
   it('changes to enabled state when game starts', () => {
     expect(component.disabled).toBeTrue();

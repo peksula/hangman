@@ -7,7 +7,7 @@ import { MatListModule } from '@angular/material/list';
 
 import { HangmanComponent } from './hangman.component';
 import { FirestoreService } from '../services/firestore.service';
-import { Sentence } from '../interfaces/sentence';
+import { Sentence } from '../models/sentence';
 import { InstructionsComponent } from './instructions/instructions.component';
 import { HighScoresComponent } from './high-scores/high-scores.component';
 import { LetterComponent } from './letter/letter.component';

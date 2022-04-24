@@ -1,6 +1,6 @@
 import { Help } from './help';
 import { HangmanConstants } from '../constants';
-import { Sentence } from '../interfaces/sentence';
+import { Sentence } from './sentence';
 
 describe('Help', () => {
   let help: Help;

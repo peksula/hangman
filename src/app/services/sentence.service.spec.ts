@@ -3,7 +3,7 @@ import { Observable, of } from 'rxjs'
 
 import { SentenceService } from './sentence.service';
 import { FirestoreService } from '../services/firestore.service';
-import { Sentence } from '../interfaces/sentence';
+import { Sentence } from '../models/sentence';
 
 describe('SentenceService', () => {
   let service: SentenceService;

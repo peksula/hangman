@@ -7,7 +7,7 @@ import {
 } from '@angular/fire/firestore';
 
 import { FirestoreService} from './firestore.service';
-import { Sentence } from '../interfaces/sentence';
+import { Sentence } from '../models/sentence';
 
 @Injectable({
   providedIn: 'root'

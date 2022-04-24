@@ -1,8 +1,8 @@
 import { first } from 'rxjs/operators';
 
-import { GameState } from '../interfaces/state';
+import { GameState } from '../models/state';
 import { Game } from './game';
-import { Sentence } from '../interfaces/sentence';
+import { Sentence } from './sentence';
 import { HangmanConstants } from '../constants';
 
 describe('Game', () => {

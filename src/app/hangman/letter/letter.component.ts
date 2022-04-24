@@ -1,7 +1,7 @@
 import { Subscription  } from 'rxjs';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Game } from '../../models/game';
-import { GameState } from '../../interfaces/state';
+import { GameState } from '../../models/state';
 
 @Component({
   selector: 'app-letter',

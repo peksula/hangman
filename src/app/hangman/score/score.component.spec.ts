@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
 
 import { ScoreComponent } from './score.component';
-import { Sentence } from '../../interfaces/sentence';
+import { Sentence } from '../../models/sentence';
 
 describe('ScoreComponent', () => {
   let component: ScoreComponent;
@@ -50,6 +50,5 @@ describe('ScoreComponent', () => {
     component.game.totalSentences = 3;
     expect(component.progress()).toEqual(67);
   });
-
 
 });
