@@ -10,52 +10,6 @@ section {
     display: table;
 }
 
-.sentence {
-    margin: 25px;
-    margin-left: 50px;
-    white-space: pre;
-    font: 60px verdana, sans-serif;
-}
-
-.hangman {
-    float: right;
-    margin-top: 50px;
-    margin-left: 50px;
-    font: 150px verdana, sans-serif;
-}
-
-.high-scores {
-    float: right;
-    margin-left: 20px;
-    font: 15px verdana, sans-serif;
-}
-
-.score {
-    margin-top: 50px;
-    width: 1000px;
-}
-
-.Instructions {
-    float: right;
-    width: 800px;
-}
-
-.help-text, .message {
-    margin-left: 50px;
-    font: 20px verdana, sans-serif;
-}
-
-.backlog {
-    margin: 25px;
-}
-
-.letter-buttons {
-    margin: 25px;
-    margin-left: 50px;
-    margin-top: 50px;
-    width: 1000px;
-}
-
 .button-row {
     display: table-cell;
     margin: 25px;
@@ -67,7 +21,54 @@ section {
     margin: 25px;
 }
 
+.hangman {
+    float: right;
+    margin-top: 50px;
+    margin-left: 50px;
+    font: 150px verdana, sans-serif;
+}
+
+.help-text {
+    margin-left: 50px;
+    font: 20px verdana, sans-serif;
+}
+
+.high-scores {
+    float: right;
+    margin-left: 20px;
+    font: 15px verdana, sans-serif;
+}
+
 .i-made-this {
     margin: 25px;
     font: 12px verdana, sans-serif;
+}
+
+.instructions {
+    float: right;
+    width: 800px;
+}
+
+.letter-buttons {
+    margin: 25px;
+    margin-left: 50px;
+    margin-top: 50px;
+    width: 1000px;
+}
+
+.message {
+    margin-left: 50px;
+    font: 20px verdana, sans-serif;
+}
+
+.score {
+    margin-top: 50px;
+    width: 1000px;
+}
+
+.sentence {
+    margin: 25px;
+    margin-left: 50px;
+    white-space: pre;
+    font: 60px verdana, sans-serif;
 }
