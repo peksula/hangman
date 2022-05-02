@@ -1,7 +1,7 @@
 export enum GameState {
     STARTED = 1,
-    GUESSING_SENTENCE,
-    GUESSED_SENCENCE,
+    SENTENCE_COMPLETED,
+    NEXT_SENTENCE,
     FAILED,
     COMPLETED
 }

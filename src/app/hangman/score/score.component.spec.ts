@@ -1,21 +1,29 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
 
+import { FirestoreService } from 'src/app/services/firestore.service';
+import { firestoreServiceStub } from 'src/app/services/firestore.stub.service';
+import { GameService } from 'src/app/services/game.service';
 import { ScoreComponent } from './score.component';
 import { Sentence } from '../../models/sentence';
 
 describe('ScoreComponent', () => {
   let component: ScoreComponent;
   let fixture: ComponentFixture<ScoreComponent>;
+  let gameService: GameService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ ScoreComponent ],
       imports: [
         MatCardModule
-      ]      
+      ],
+      providers: [
+        { provide: FirestoreService, useValue: firestoreServiceStub }
+      ]
     })
     .compileComponents();
+    gameService = TestBed.inject(GameService);
   });
 
   beforeEach(() => {
@@ -38,17 +46,11 @@ describe('ScoreComponent', () => {
       help:' my help'
     } as Sentence;
 
-    component.game.totalSentences = 10;
-    expect(component.progress()).toEqual(0);
+    component.correctSentences.push(sentence);
+    expect(component.progress()).toEqual(1);
 
-    component.game.correctSentences.push(sentence);
-    expect(component.progress()).toEqual(10);
-
-    component.game.correctSentences.push(sentence);
-    expect(component.progress()).toEqual(20);
-
-    component.game.totalSentences = 3;
-    expect(component.progress()).toEqual(67);
+    component.correctSentences.push(sentence);
+    expect(component.progress()).toEqual(2);
   });
 
 });

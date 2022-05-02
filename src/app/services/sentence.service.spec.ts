@@ -1,34 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-import { Observable, of } from 'rxjs'
+import { first } from 'rxjs/operators';
 
-import { SentenceService } from './sentence.service';
 import { FirestoreService } from '../services/firestore.service';
-import { Sentence } from '../models/sentence';
+import { firestoreServiceStub, FakeData } from '../services/firestore.stub.service';
+import { SentenceService } from './sentence.service';
 
 describe('SentenceService', () => {
   let service: SentenceService;
-  let firestoreServiceStub: Partial<FirestoreService>;
-
-  const sentences = [
-    {
-      title: 'my struggle 1'
-    } as Sentence,
-    {
-      title: 'my struggle 2'
-    } as Sentence,
-    {
-      title: 'my struggle 3'
-    } as Sentence,
-    {
-      title: 'my struggle 4'
-    } as Sentence
-  ];
-
-  firestoreServiceStub = {
-    getSentences(): Observable<Sentence[]> {
-      return of(sentences);
-    }
-  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -42,16 +20,33 @@ describe('SentenceService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('provides unique sentences', () => {
-    let returned = [];
-    const length = sentences.length;
-    for (let i=0; i < length; i++) {
-      const random = service.randomSentence();
-      expect(random).toBeTruthy();
-      expect(returned.includes(random)).toBeFalse();
-      returned.push(random);
-    }
-    const final = service.randomSentence();
-    expect(final).toBeUndefined();
+  it('reset loads sentences again', (done) => {
+    service.ready().pipe(first()).subscribe(total => {
+      expect(total).toBe(FakeData.SENTENCES.length);
+      expect(service.totalSentences).toBe(FakeData.SENTENCES.length);
+      done();
+    });
+    expect(service.totalSentences).toBe(0);
+    service.reset();
+  });
+
+  it('provides unique sentences', (done) => {
+    service.ready().pipe(first()).subscribe(total => {
+      const length = FakeData.SENTENCES.length;
+      expect(total).toEqual(length);
+      let returned = [];
+      for (let i=0; i < length; i++) {
+        const random = service.randomSentence();
+        expect(random).toBeTruthy();
+        expect(returned.includes(random)).toBeFalse();
+        returned.push(random);
+      }
+      const final = service.randomSentence();
+      expect(returned.length).toBe(length);
+      expect(final).toBeUndefined();
+      expect(service.sentences).toEqual([]);
+      done();
+    });
+    service.reset();
   });
 });

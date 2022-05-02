@@ -1,18 +1,19 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Game } from '../../models/game';
+import { Component } from '@angular/core';
+import { HangmanConstants } from 'src/app/constants';
 
 @Component({
   selector: 'app-instructions',
   templateUrl: './instructions.component.html',
   styleUrls: ['./instructions.component.css']
 })
-export class InstructionsComponent implements OnInit {
+export class InstructionsComponent {
 
-  @Input() game: Game = new Game();
+  maxHelpUse = HangmanConstants.ALLOWED_HELPS;
+  helpPenalty = HangmanConstants.HELP_PENALTY;
+  pointsPerLetter = HangmanConstants.POINTS_FOR_LETTER;
+  pointsPerSentence = HangmanConstants.POINTS_FOR_SENTENCE;
 
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor() {
   }
 
 }

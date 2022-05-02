@@ -1,31 +1,40 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Game } from '../../models/game';
-import { HangmanConstants } from '../../constants';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+
+import { GameService } from 'src/app/services/game.service';
+import { Sentence } from '../../models/sentence';
 
 @Component({
   selector: 'app-score',
   templateUrl: './score.component.html',
   styleUrls: ['./score.component.css']
 })
-export class ScoreComponent implements OnInit {
+export class ScoreComponent implements OnInit, OnDestroy {
 
-  pointsPerLetter: number = HangmanConstants.POINTS_FOR_LETTER;
-  pointsPerSentence: number = HangmanConstants.POINTS_FOR_SENTENCE;
+  private scoreSubscription!: Subscription;
+  score: number = 0;
+  correctSentences: Sentence[] = [];
 
-  @Input() game: Game = new Game();
-
-  constructor() { }
+  constructor(private gameService: GameService) {
+  }
 
   ngOnInit(): void {
+    this.scoreSubscription = this.gameService.score().subscribe(
+      (scoring) => {
+        this.score = scoring.score;
+        this.correctSentences = scoring.correctSentences;
+      }
+    );    
+  }
+
+  ngOnDestroy(): void {
+    if (this.scoreSubscription) {
+      this.scoreSubscription.unsubscribe();
+    }     
   }
 
   progress() : number {
-    if (this.game.totalSentences == 0) {
-      return 0;
-    } else {
-      return Math.round(this.game.correctSentences.length / this.game.totalSentences * 100);
-    }
+    return this.correctSentences.length;
   }
-
 
 }

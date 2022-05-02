@@ -1,10 +1,7 @@
 
 import { Injectable } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 import { first } from 'rxjs/operators';
-import {
-  Firestore, addDoc, collection, collectionData
-  //doc, docData, deleteDoc, updateDoc, DocumentReference, setDoc
-} from '@angular/fire/firestore';
 
 import { FirestoreService} from './firestore.service';
 import { Sentence } from '../models/sentence';
@@ -16,8 +13,20 @@ export class SentenceService {
 
   sentences: Sentence[] = [];
   totalSentences: number = 0;
+  readySubject: Subject<number> = new Subject<number>();
 
   constructor(private firestoreService: FirestoreService) {
+  }
+
+  randomSentence(): Sentence | undefined {
+    return this.sentences.pop(); 
+  }
+
+  ready(): Observable<number> {
+    return this.readySubject.asObservable();
+  }
+
+  reset()  {
     this.getSentences();
   }
 
@@ -26,11 +35,8 @@ export class SentenceService {
       sentences => {
         this.totalSentences = sentences.length;
         this.sentences = this.shuffle(sentences);
+        this.readySubject.next(this.totalSentences);
       });
-  }
-
-  randomSentence(): Sentence | undefined {
-    return this.sentences.pop(); 
   }
 
   private shuffle(sentences: Sentence[]): Sentence[] {
@@ -42,7 +48,8 @@ export class SentenceService {
       randomIndex = Math.floor(Math.random() * currentIndex);
       currentIndex--;
       // And swap it with the current element.
-      [sentences[currentIndex], sentences[randomIndex]] = [sentences[randomIndex], sentences[currentIndex]];
+      [sentences[currentIndex], sentences[randomIndex]] =
+        [sentences[randomIndex], sentences[currentIndex]];
     }
     return sentences;
   }

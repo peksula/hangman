@@ -1,7 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { first } from 'rxjs/operators';
-import { GameState } from '../../models/state';
 
+import { FirestoreService } from '../../services/firestore.service';
+import { firestoreServiceStub } from '../../services/firestore.stub.service';
+import { GameState } from '../../models/state';
 import { LetterComponent } from './letter.component';
 
 describe('LetterComponent', () => {
@@ -10,7 +12,8 @@ describe('LetterComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LetterComponent ]
+      declarations: [ LetterComponent ],
+      providers: [ { provide: FirestoreService, useValue: firestoreServiceStub } ]
     })
     .compileComponents();
   });
@@ -51,7 +54,7 @@ describe('LetterComponent', () => {
 
   it('changes to enabled state when new sentence is started', () => {
     expect(component.disabled).toBeTrue();
-    component.onStateChange(GameState.GUESSING_SENTENCE);
+    component.onStateChange(GameState.NEXT_SENTENCE);
     expect(component.disabled).toBeFalse();
   });
 

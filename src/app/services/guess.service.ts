@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+
 import { HangmanConstants } from '../constants';
 import { Sentence } from '../models/sentence';
 
@@ -19,6 +20,11 @@ export class GuessService {
     this.guesses = [];
     this.format();
   }
+
+  formattedSentence(): Observable<string>{
+    return this.formattedSentenceSubject.asObservable();
+  }
+
 
   guess(letter: string): boolean {
     // Returns true if the guess was correct

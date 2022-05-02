@@ -12,13 +12,13 @@ export class Help
     }
 
     requested(sentence: Sentence | null) {
-    this.used++;
-    this.remaining--;
-    if (sentence) {
-            this.text = sentence.help;
-        } else {
-            this.text = 'No help available.'    // should not happen
-        }
+        this.used++;
+        this.remaining--;
+        if (sentence) {
+                this.text = sentence.help;
+            } else {
+                this.text = 'No help available.'    // should not happen
+            }
     }
 
     clear() {

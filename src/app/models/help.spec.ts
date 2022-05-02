@@ -1,5 +1,5 @@
-import { Help } from './help';
 import { HangmanConstants } from '../constants';
+import { Help } from './help';
 import { Sentence } from './sentence';
 
 describe('Help', () => {
@@ -17,7 +17,7 @@ describe('Help', () => {
     expect(help.max).toEqual(HangmanConstants.ALLOWED_HELPS);
   });
 
-  it('clears help text', () => {
+  it('clears help text when requested', () => {
     help.text = 'the truth is out there';
     help.clear();
     expect(help.text).toEqual('');

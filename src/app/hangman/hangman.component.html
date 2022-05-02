@@ -8,9 +8,6 @@
         {{ formattedSentence$ | async }}
       </span>
     </div>
-    <div class="help-text">
-      {{ game.help.text }}
-    </div>
     <div class="message">
       {{ message }}
     </div>
@@ -18,13 +15,13 @@
 
   <section>
     <div class="hangman">
-      {{ game.mistake.remaining }}
+      {{ mistakesRemaining }}
     </div>
 
     <div class="letter-buttons">
       <div *ngFor="let letter_row of lettersRows">
         <app-letter
-            *ngFor="let letter of letter_row" [letter]="letter" [game]="game" (guessed)="onGuess($event)">
+            *ngFor="let letter of letter_row" [letter]="letter" (guessed)="onGuess($event)">
         </app-letter>
       </div>
     </div>
@@ -33,14 +30,14 @@
   <section>
     <span>
       <div class="button-row">
-        <button class="control-button" *ngIf="game.state == 1 || game.state == 4" (click)="onStart()" mat-raised-button color="primary">
+        <button class="control-button" *ngIf="startButtonEnabled" (click)="onStart()" mat-raised-button color="primary">
           New Game!
         </button>
-        <button class="control-button" *ngIf="game.state == 3" (click)="onNext()" mat-raised-button color="primary">
+        <button class="control-button" *ngIf="nextButtonEnabled" (click)="onNext()" mat-raised-button color="primary">
           Next!
         </button>
-        <button class="control-button" *ngIf="game.state == 2" (click)="onHelp()" mat-raised-button color="primary" [disabled]="game.help.remaining==0">
-          Help me! ({{ game.help.remaining }})
+        <button class="control-button" *ngIf="helpButtonEnabled" (click)="onHelp()" mat-raised-button color="primary">
+          Help me!
         </button>
       </div>
     </span>
@@ -52,14 +49,13 @@
     </div>
 
     <div class="instructions">
-        <app-instructions [game]="game"></app-instructions>
+        <app-instructions></app-instructions>
     </div>
   </section>
 
   <section>
     <div class="score">
-      <app-score [game]="game">
-      </app-score>
+      <app-score></app-score>
     </div>
   </section>
 
@@ -68,7 +64,7 @@
   <section>
     <div class="i-made-this">
       I made this! @xfpekka, 2022<br>
-      v.0.3, April 10th.<br>
+      v.0.5, April 29th.<br>
       Still in progress.<br>
     </div>
   </section>

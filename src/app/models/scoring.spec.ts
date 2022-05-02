@@ -1,5 +1,6 @@
-import { Scoring } from './scoring';
 import { HangmanConstants } from '../constants';
+import { Scoring } from './scoring';
+import { Sentence } from './sentence';
 
 describe('Scoring', () => {
   let scoring: Scoring;
@@ -24,7 +25,11 @@ describe('Scoring', () => {
   });
 
   it('adds to the score when correct sentence guessed', () => {
-    scoring.correctSentence();
+    const sentence = {
+      title: 'my title',
+      help:' my help'
+    } as Sentence;
+    scoring.correctSentence(sentence);
     expect(scoring.score).toEqual(HangmanConstants.POINTS_FOR_SENTENCE);
   });
 

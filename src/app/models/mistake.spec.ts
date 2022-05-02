@@ -1,5 +1,5 @@
-import { Mistake } from './mistake';
 import { HangmanConstants } from '../constants';
+import { Mistake } from './mistake';
 
 describe('Mistake', () => {
   let mistake: Mistake;
@@ -14,13 +14,13 @@ describe('Mistake', () => {
     expect(mistake.remaining).toEqual(HangmanConstants.ALLOWED_MISTAKES);
   });
 
-  it('handles made mistake', () => {
+  it('reducts remaining mistakes', () => {
     mistake.made();
     expect(mistake.mistakesMade).toEqual(1);
     expect(mistake.remaining).toEqual(HangmanConstants.ALLOWED_MISTAKES - 1);
   });
 
-  it('handles help request correctly', () => {
+  it('resets variables when requested', () => {
     mistake.made();
     mistake.reset();
     expect(mistake.mistakesMade).toEqual(0);
