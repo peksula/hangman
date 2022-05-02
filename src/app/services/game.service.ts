@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, first } from 'rxjs';
 
 import { Game } from '../models/game';
 import { GameState } from '../models/state';
@@ -47,9 +47,12 @@ export class GameService {
   }
   
   newGame(): void {
+    this.sentenceService.ready().pipe(first()).subscribe(total => {
+      this.game.newGame(this.sentenceService.totalSentences);
+      this.changeState(GameState.STARTED);
+      this.nextSentence();
+    });
     this.sentenceService.reset();
-    this.game.newGame(this.sentenceService.totalSentences);
-    this.changeState(GameState.STARTED);
   }
 
   nextSentence(): void {
@@ -69,7 +72,6 @@ export class GameService {
   registerGuess(guessedLetter: string) {
     const correctGuess = this.guessService.guess(guessedLetter);
     this.game.registerGuess(guessedLetter, correctGuess);
-    this.scoringSubject.next(this.game.scoring);
 
     if (!correctGuess) {
       this.mistakeSubject.next(this.game.mistake);
@@ -83,6 +85,8 @@ export class GameService {
       this.game.sentenceCompleted();
       this.changeState(GameState.SENTENCE_COMPLETED);
     }
+
+    this.scoringSubject.next(this.game.scoring);
   }
 
   private changeState(state: GameState) {

@@ -30,14 +30,14 @@
   <section>
     <span>
       <div class="button-row">
-        <button class="control-button" *ngIf="startButtonEnabled" (click)="onStart()" mat-raised-button color="primary">
+        <button class="control-button" [disabled]="!startButtonEnabled" (click)="onStart()" mat-raised-button color="primary">
           New Game!
         </button>
-        <button class="control-button" *ngIf="nextButtonEnabled" (click)="onNext()" mat-raised-button color="primary">
+        <button class="control-button" [disabled]="!nextButtonEnabled" (click)="onNext()" mat-raised-button color="primary">
           Next!
         </button>
-        <button class="control-button" *ngIf="helpButtonEnabled" (click)="onHelp()" mat-raised-button color="primary">
-          Help me!
+        <button class="control-button" [disabled]="!helpButtonEnabled" (click)="onHelp()" mat-raised-button color="primary">
+          Help! ({{helpRemaining}})
         </button>
       </div>
     </span>
@@ -64,7 +64,7 @@
   <section>
     <div class="i-made-this">
       I made this! @xfpekka, 2022<br>
-      v.0.5, April 29th.<br>
+      v.0.5, May 2nd.<br>
       Still in progress.<br>
     </div>
   </section>

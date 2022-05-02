@@ -16,6 +16,7 @@ import { InstructionsComponent } from './instructions/instructions.component';
 import { LetterComponent } from './letter/letter.component';
 import { ScoreComponent } from './score/score.component';
 import { SentenceService } from '../services/sentence.service';
+import { GameState } from '../models/state';
 
 describe('HangmanComponent', () => {
   let component: HangmanComponent;
@@ -59,6 +60,12 @@ describe('HangmanComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('initializes with help, start, and next button in correct states', () => {
+    expect(component.startButtonEnabled).toBeTrue();
+    expect(component.helpButtonEnabled).toBeFalse();
+    expect(component.nextButtonEnabled).toBeFalse();
+  });
+
   it('registers wrong guess', () => {
     component.onGuess('X');
     expect(component.mistakesRemaining).toBe(HangmanConstants.ALLOWED_MISTAKES - 1);
@@ -74,5 +81,63 @@ describe('HangmanComponent', () => {
     component.onStart()
     expect(component.message).toEqual('');
   });
+
+  it('sets the button states correctly when game starts', (done) => {
+    gameService.gameState().pipe(first()).subscribe(
+      (state) => {
+        if (state === GameState.STARTED) {
+          expect(component.startButtonEnabled).toBeFalse();
+          expect(component.helpButtonEnabled).toBeTrue();
+          expect(component.nextButtonEnabled).toBeFalse();
+          expect(component.message).toEqual('');
+          done();
+        }
+      });
+    component.message = 'trust no one';
+    component.onStart();
+  });
+
+  it('sets the button states correctly when sentence is completed', (done) => {
+    gameService.gameState().pipe(first()).subscribe(
+      (state) => {
+        if (state === GameState.SENTENCE_COMPLETED) {
+          expect(component.startButtonEnabled).toBeFalse();
+          expect(component.helpButtonEnabled).toBeFalse();
+          expect(component.nextButtonEnabled).toBeTrue();
+          done();
+        }
+      });
+    component.helpButtonEnabled = false;
+    gameService.stateSubject.next(GameState.SENTENCE_COMPLETED);
+  });
+
+  it('sets the button states correctly when a new sentence is started', (done) => {
+    gameService.gameState().pipe(first()).subscribe(
+      (state) => {
+        if (state === GameState.NEXT_SENTENCE) {
+          expect(component.startButtonEnabled).toBeFalse();
+          expect(component.nextButtonEnabled).toBeFalse();
+          expect(component.message).toEqual('');
+          done();
+        }
+      });
+    component.message = 'trust no one';
+    gameService.stateSubject.next(GameState.NEXT_SENTENCE);
+  });
+
+  it('sets the button states correctly when game fails', (done) => {
+    gameService.gameState().pipe(first()).subscribe(
+      (state) => {
+        if (state === GameState.FAILED) {
+          expect(component.startButtonEnabled).toBeTrue();
+          expect(component.nextButtonEnabled).toBeFalse();
+          expect(component.helpButtonEnabled).toBeFalse();
+          done();
+        }
+      });
+    gameService.stateSubject.next(GameState.FAILED);
+  });
+
+
 
 });

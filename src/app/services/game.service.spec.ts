@@ -41,7 +41,7 @@ describe('GameService', () => {
 
   it('provides score', (done) => {
     service.score().pipe(first()).subscribe(score => {
-      expect(score.score).toEqual(30);
+      expect(score.score).toEqual(35); // completed
       done();
     });
     service.game.scoring.score = 30;
@@ -67,12 +67,12 @@ describe('GameService', () => {
   it('new game resets everything', (done) => {
     service.gameState().pipe(first()).subscribe(state => {
       expect(state).toEqual(GameState.STARTED);
-      done();
+      expect(service.game.correctSentences).toEqual([]);
+      expect(service.game.mistake.mistakesMade).toEqual(0);
+      expect(service.game.scoring.score).toEqual(0);
+        done();
     });
     service.newGame();
-    expect(service.game.correctSentences).toEqual([]);
-    expect(service.game.mistake.mistakesMade).toEqual(0);
-    expect(service.game.scoring.score).toEqual(0);
   });
 
   it('switches to complete state when game is done', (done) => {
@@ -93,5 +93,15 @@ describe('GameService', () => {
     service.game.mistake.remaining = 0;
     service.registerGuess('x');
   });
+
+  it('updates score immediately', (done) => {
+    service.score().pipe(first()).subscribe(scoring => {
+      expect(scoring.score).toEqual(10);
+      done();
+    });
+    service.game.scoring.score = 5;
+    service.registerGuess('x');
+  });
+
 
 });

@@ -4,7 +4,6 @@ import { Observable, Subscription } from 'rxjs';
 import { GameService } from '../services/game.service';
 import { GuessService } from '../services/guess.service';
 import { HangmanConstants } from '../constants';
-import { Game } from '../models/game';
 import { GameState } from '../models/state';
 
 @Component({
@@ -15,7 +14,7 @@ import { GameState } from '../models/state';
 export class HangmanComponent implements OnInit, OnDestroy {
   formattedSentence$: Observable<string>;
   lettersRows = HangmanConstants.LETTERS;
-  helpButtonEnabled: boolean = true;
+  helpButtonEnabled: boolean = false;
   helpRemaining: number = HangmanConstants.ALLOWED_HELPS;
   message: string = '';
   mistakesRemaining: number = HangmanConstants.ALLOWED_MISTAKES;
@@ -62,7 +61,6 @@ export class HangmanComponent implements OnInit, OnDestroy {
   }
 
   onStart() {
-    this.message = '';
     this.gameService.newGame();
     this.gameService.nextSentence();
   }
@@ -70,6 +68,12 @@ export class HangmanComponent implements OnInit, OnDestroy {
   private observeState() {
     this.gameStateSubscription = this.gameService.gameState().subscribe(
       (state) => {
+        if (state === GameState.STARTED) {
+          this.message = '';
+          this.helpButtonEnabled = true;
+          this.startButtonEnabled = false;
+          this.nextButtonEnabled = false;
+        }
         if (state === GameState.COMPLETED) {
           this.message = HangmanConstants.COMPLETED_MESSAGE;
           this.startButtonEnabled = true;
@@ -79,10 +83,15 @@ export class HangmanComponent implements OnInit, OnDestroy {
           this.startButtonEnabled = true;
         }
         if (state === GameState.SENTENCE_COMPLETED) {
+          this.helpButtonEnabled = false;
+          this.startButtonEnabled = false;
           this.nextButtonEnabled = true;
         }
         if (state === GameState.NEXT_SENTENCE) {
           this.nextButtonEnabled = false;
+          this.startButtonEnabled = false;
+          this.helpButtonEnabled = this.helpRemaining > 0;
+          this.message = '';
         }
       }
     );
@@ -93,6 +102,7 @@ export class HangmanComponent implements OnInit, OnDestroy {
       (help) => {
         this.message = help.text
         this.helpRemaining = help.remaining;
+        this.helpButtonEnabled = false;
       }
     );
   }
