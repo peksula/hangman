@@ -11,9 +11,10 @@ import { Sentence } from '../../models/sentence';
 })
 export class ScoreComponent implements OnInit, OnDestroy {
 
-  private scoreSubscription!: Subscription;
-  score: number = 0;
   correctSentences: Sentence[] = [];
+  score: number = 0;
+  totalSentences: number = 0;
+  private scoreSubscription!: Subscription;
 
   constructor(private gameService: GameService) {
   }
@@ -24,7 +25,8 @@ export class ScoreComponent implements OnInit, OnDestroy {
         this.score = scoring.score;
         this.correctSentences = scoring.correctSentences;
       }
-    );    
+    ); 
+    this.totalSentences = this.gameService.game.totalSentences;
   }
 
   ngOnDestroy(): void {
@@ -36,5 +38,4 @@ export class ScoreComponent implements OnInit, OnDestroy {
   progress() : number {
     return this.correctSentences.length;
   }
-
 }

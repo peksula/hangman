@@ -64,16 +64,25 @@ describe('GameService', () => {
     service.stateSubject.next(GameState.COMPLETED);
   });
 
-  it('new game resets everything', (done) => {
+  it('resets everything when new game is started', (done) => {
     service.gameState().pipe(first()).subscribe(state => {
       expect(state).toEqual(GameState.STARTED);
       expect(service.game.correctSentences).toEqual([]);
       expect(service.game.mistake.mistakesMade).toEqual(0);
       expect(service.game.scoring.score).toEqual(0);
-        done();
+      done();
     });
     service.newGame();
   });
+
+  it('emits resetted score when new game is started', (done) => {
+    service.score().pipe(first()).subscribe(scoring => {
+      expect(scoring.score).toEqual(0);
+      done();
+    });
+    service.newGame();
+  });
+
 
   it('switches to complete state when game is done', (done) => {
     service.gameState().pipe(first()).subscribe(state => {

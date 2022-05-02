@@ -50,6 +50,7 @@ export class GameService {
     this.sentenceService.ready().pipe(first()).subscribe(total => {
       this.game.newGame(this.sentenceService.totalSentences);
       this.changeState(GameState.STARTED);
+      this.scoringSubject.next(this.game.scoring);
       this.nextSentence();
     });
     this.sentenceService.reset();

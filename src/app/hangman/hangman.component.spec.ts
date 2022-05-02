@@ -90,6 +90,7 @@ describe('HangmanComponent', () => {
           expect(component.helpButtonEnabled).toBeTrue();
           expect(component.nextButtonEnabled).toBeFalse();
           expect(component.message).toEqual('');
+          expect(component.helpRemaining = HangmanConstants.ALLOWED_HELPS);
           done();
         }
       });
