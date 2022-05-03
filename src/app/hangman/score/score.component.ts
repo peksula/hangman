@@ -24,9 +24,9 @@ export class ScoreComponent implements OnInit, OnDestroy {
       (scoring) => {
         this.score = scoring.score;
         this.correctSentences = scoring.correctSentences;
+        this.totalSentences = this.gameService.game.totalSentences;
       }
     ); 
-    this.totalSentences = this.gameService.game.totalSentences;
   }
 
   ngOnDestroy(): void {
@@ -35,7 +35,11 @@ export class ScoreComponent implements OnInit, OnDestroy {
     }     
   }
 
-  progress() : number {
-    return this.correctSentences.length;
+  progress() : string {
+    if (this.correctSentences.length > 0 && this.totalSentences > 0) {
+      return this.correctSentences.length + '/' + this.totalSentences + ' (' + 
+        (Math.round(this.correctSentences.length / this.totalSentences * 100)) + '%)';
+    }
+    return '0';
   }
 }

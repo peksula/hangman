@@ -37,7 +37,7 @@ describe('ScoreComponent', () => {
   });
 
   it('should calculate game progress correctly when no progress has been made', () => {
-    expect(component.progress()).toEqual(0);
+    expect(component.progress()).toEqual('0');
   });
 
   it('should calculate game progress correctly', () => {
@@ -47,10 +47,16 @@ describe('ScoreComponent', () => {
     } as Sentence;
 
     component.correctSentences.push(sentence);
-    expect(component.progress()).toEqual(1);
+    expect(component.progress()).toEqual('0');
+    
+    component.totalSentences = 2;
+    expect(component.progress()).toEqual('1/2 (50%)');
 
     component.correctSentences.push(sentence);
-    expect(component.progress()).toEqual(2);
+    expect(component.progress()).toEqual('2/2 (100%)');
+    
+    component.totalSentences = 3;
+    expect(component.progress()).toEqual('2/3 (67%)');
   });
 
 });
