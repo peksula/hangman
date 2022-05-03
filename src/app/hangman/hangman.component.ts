@@ -70,6 +70,7 @@ export class HangmanComponent implements OnInit, OnDestroy {
       (state) => {
         if (state === GameState.STARTED) {
           this.message = '';
+          this.helpRemaining = HangmanConstants.ALLOWED_HELPS;
           this.helpButtonEnabled = true;
           this.startButtonEnabled = false;
           this.nextButtonEnabled = false;
