@@ -1,7 +1,7 @@
 
 import { Injectable } from '@angular/core';
-
 import { Observable } from 'rxjs';
+import { Auth, signInAnonymously, signOut } from '@angular/fire/auth';
 import {Firestore, addDoc, collection, collectionData
   //doc, docData, deleteDoc, updateDoc, DocumentReference, setDoc
 } from '@angular/fire/firestore';
@@ -13,7 +13,12 @@ import { Sentence } from '../models/sentence';
 })
 export class FirestoreService {
 
-  constructor(private firestore: Firestore) {
+  constructor(private firestore: Firestore, private auth: Auth) {
+    this.login();
+  }
+
+  ngOnDestroy() {
+    this.logout();
   }
 
   getSentences(): Observable<Sentence[]> {
@@ -25,4 +30,21 @@ export class FirestoreService {
     const sentencesRef = collection(this.firestore, 'sentences'); 
     return addDoc(sentencesRef, sentence);
   }  
+
+  login(): void {
+    signInAnonymously(this.auth).then(_userCredential => {
+      console.log('signed in');
+    }).catch(error => {
+      console.log('failed to sign in ' + error.code + ' ' + error.message);
+    })
+  }
+
+  logout(): void {
+    signOut(this.auth).then(() => {
+      console.log('signed out');
+    }).catch(error => {
+      console.log('failed to sign out ' + error.code + ' ' + error.message);
+    })
+  }
+
 }
