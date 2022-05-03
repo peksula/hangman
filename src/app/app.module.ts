@@ -8,6 +8,7 @@ import { MatListModule } from '@angular/material/list';
 
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { provideAuth, getAuth } from '@angular/fire/auth';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -31,6 +32,7 @@ import { InstructionsComponent } from './hangman/instructions/instructions.compo
   imports: [
     BrowserModule,
     AppRoutingModule,
+    provideAuth(() => getAuth()),
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideFirestore(() => getFirestore()),
     BrowserAnimationsModule,
