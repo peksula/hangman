@@ -6,7 +6,7 @@ import { MatListModule } from '@angular/material/list';
 import { first } from 'rxjs/operators';
 
 import { FirestoreService } from '../services/firestore.service';
-import { firestoreServiceStub, FakeData } from '../services/firestore.stub.service';
+import { firestoreServiceStub } from '../services/firestore.stub.service';
 import { GameService } from '../services/game.service';
 import { GuessService } from '../services/guess.service';
 import { HangmanComponent } from './hangman.component';
@@ -60,20 +60,14 @@ describe('HangmanComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('initializes with help, start, and next button in correct states', () => {
+  it('initializes with start and next button in correct states', () => {
     expect(component.startButtonEnabled).toBeTrue();
-    expect(component.helpButtonEnabled).toBeFalse();
     expect(component.nextButtonEnabled).toBeFalse();
   });
 
   it('registers wrong guess', () => {
     component.onGuess('X');
     expect(component.mistakesRemaining).toBe(HangmanConstants.ALLOWED_MISTAKES - 1);
-  });
-
-  it('requests help', () => {
-    component.onHelp();
-    expect(component.helpRemaining).toBe(HangmanConstants.ALLOWED_HELPS - 1);
   });
 
   it('resets message when start button pressed', () => {
@@ -87,10 +81,8 @@ describe('HangmanComponent', () => {
       (state) => {
         if (state === GameState.STARTED) {
           expect(component.startButtonEnabled).toBeFalse();
-          expect(component.helpButtonEnabled).toBeTrue();
           expect(component.nextButtonEnabled).toBeFalse();
           expect(component.message).toEqual('');
-          expect(component.helpRemaining = HangmanConstants.ALLOWED_HELPS);
           done();
         }
       });
@@ -103,12 +95,10 @@ describe('HangmanComponent', () => {
       (state) => {
         if (state === GameState.SENTENCE_COMPLETED) {
           expect(component.startButtonEnabled).toBeFalse();
-          expect(component.helpButtonEnabled).toBeFalse();
           expect(component.nextButtonEnabled).toBeTrue();
           done();
         }
       });
-    component.helpButtonEnabled = false;
     gameService.stateSubject.next(GameState.SENTENCE_COMPLETED);
   });
 
@@ -132,7 +122,6 @@ describe('HangmanComponent', () => {
         if (state === GameState.FAILED) {
           expect(component.startButtonEnabled).toBeTrue();
           expect(component.nextButtonEnabled).toBeFalse();
-          expect(component.helpButtonEnabled).toBeFalse();
           done();
         }
       });

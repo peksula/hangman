@@ -1,9 +1,7 @@
 export class HangmanConstants
 {
     static readonly COMPLETED_MESSAGE = 'Game completed!!! Congratulations, you are a dark wizard!';
-    static readonly ALLOWED_HELPS = 3;
     static readonly ALLOWED_MISTAKES = 6;
-    static readonly HELP_PENALTY = 5;
     static readonly LETTERS = [
         ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'],
         ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],

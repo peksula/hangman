@@ -4,7 +4,6 @@ import { Sentence } from './sentence';
 export class Scoring
 {
     correctSentences: Sentence[] = [];
-    helpPenalty: number = HangmanConstants.HELP_PENALTY;
     pointsPerLetter: number = HangmanConstants.POINTS_FOR_LETTER;
     pointsPerSentence: number =HangmanConstants.POINTS_FOR_SENTENCE;
     progress: number = 0;
@@ -21,9 +20,5 @@ export class Scoring
         this.score += this.pointsPerSentence;
         this.progress += 1;
         this.correctSentences.push(sentence);
-    }
-
-    helpUsed() {
-        this.score -= this.helpPenalty;
     }
 };

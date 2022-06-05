@@ -13,7 +13,7 @@ export class SentenceService {
 
   sentences: Sentence[] = [];
   totalSentences: number = 0;
-  readySubject: Subject<number> = new Subject<number>();
+  private readySubject: Subject<number> = new Subject<number>();
 
   constructor(private firestoreService: FirestoreService) {
   }

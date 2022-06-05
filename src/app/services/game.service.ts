@@ -8,7 +8,6 @@ import { Sentence } from '../models/sentence';
 import { GuessService } from './guess.service';
 import { SentenceService } from './sentence.service';
 import { Mistake } from '../models/mistake';
-import { Help } from '../models/help';
 
 
 @Injectable({
@@ -16,7 +15,6 @@ import { Help } from '../models/help';
 })
 export class GameService {
   game: Game = new Game();
-  helpSubject: Subject<Help> = new Subject<Help>();
   mistakeSubject: Subject<Mistake> = new Subject<Mistake>();
   scoringSubject: Subject<Scoring> = new Subject<Scoring>();
   stateSubject: Subject<GameState> = new Subject<GameState>();
@@ -28,10 +26,6 @@ export class GameService {
 
   currentSentence(): Sentence | undefined {
     return this.game.currentSentence;
-  }
-
-  help(): Observable<Help> {
-    return this.helpSubject.asObservable();
   }
 
   score(): Observable<Scoring> {
@@ -65,30 +59,29 @@ export class GameService {
     }
   }
 
-  requestHelp(): void {
-    this.game.helpRequested();
-    this.helpSubject.next(this.game.help);
-  }
-
   registerGuess(guessedLetter: string) {
     const correctGuess = this.guessService.guess(guessedLetter);
-    this.game.registerGuess(guessedLetter, correctGuess);
-
-    if (!correctGuess) {
-      this.mistakeSubject.next(this.game.mistake);
+    this.game.registerGuess(correctGuess);
+    if (this.guessService.sentenceCompleted()) {
+      this.game.registerCorrectSentence();
     }
+    // Fire all subjects first, then evaluate game state
+    this.mistakeSubject.next(this.game.mistake);
+    this.scoringSubject.next(this.game.scoring);
+    this.evaluateState();
+  }
 
+  evaluateState() {
+    // public for unit testing needs
     if (this.game.completed()) {
       this.changeState(GameState.COMPLETED);
     } else if (this.game.failed()) {
       this.changeState(GameState.FAILED);
-    } else if (this.guessService.completed()) {
-      this.game.sentenceCompleted();
+    } else if (this.guessService.sentenceCompleted()) {
       this.changeState(GameState.SENTENCE_COMPLETED);
     }
-
-    this.scoringSubject.next(this.game.scoring);
   }
+
 
   private changeState(state: GameState) {
     this.game.state = state;

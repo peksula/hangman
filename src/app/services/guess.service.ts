@@ -11,20 +11,14 @@ export class GuessService {
   sentence?: Sentence;
   formattedSentenceSubject = new Subject<string>();
   guesses: string[] = [];
+  clues: string[] = [];
 
   constructor() {
   }
-
-  setSentence(sentence: Sentence) {
-    this.sentence = sentence;
-    this.guesses = [];
-    this.format();
-  }
-
+  
   formattedSentence(): Observable<string>{
     return this.formattedSentenceSubject.asObservable();
   }
-
 
   guess(letter: string): boolean {
     // Returns true if the guess was correct
@@ -38,7 +32,7 @@ export class GuessService {
     return true;
   }
 
-  completed(): boolean {
+  sentenceCompleted(): boolean {
     let completed: boolean = true;
     this.comparable().split('').forEach(letter => {
       if(!this.knownLetters().includes(letter)) {
@@ -46,6 +40,19 @@ export class GuessService {
       }
     });
     return completed;
+  }
+
+  setSentence(sentence: Sentence) {
+    this.sentence = sentence;
+    this.guesses = [];
+    this.clues = [];
+    this.format();
+  }
+
+  giveClue() {
+    if (this.sentence) {
+      const randomIndex = Math.floor(Math.random() * this.sentence?.title.length);
+    }
   }
 
   private knownLetters(): string[] {

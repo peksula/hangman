@@ -11,7 +11,6 @@ describe('Scoring', () => {
 
   it('should create', () => {
     expect(scoring).toBeTruthy();
-    expect(scoring.helpPenalty).toEqual(HangmanConstants.HELP_PENALTY);
     expect(scoring.pointsPerLetter).toEqual(HangmanConstants.POINTS_FOR_LETTER);
     expect(scoring.pointsPerSentence).toEqual(HangmanConstants.POINTS_FOR_SENTENCE);
     expect(scoring.score).toEqual(0);
@@ -31,11 +30,6 @@ describe('Scoring', () => {
     } as Sentence;
     scoring.correctSentence(sentence);
     expect(scoring.score).toEqual(HangmanConstants.POINTS_FOR_SENTENCE);
-  });
-
-  it('reducts the score when help used', () => {
-    scoring.helpUsed();
-    expect(scoring.score).toEqual(-HangmanConstants.HELP_PENALTY);
   });
 
 });

@@ -8,8 +8,6 @@ import { HangmanConstants } from 'src/app/constants';
 })
 export class InstructionsComponent {
 
-  maxHelpUse = HangmanConstants.ALLOWED_HELPS;
-  helpPenalty = HangmanConstants.HELP_PENALTY;
   pointsPerLetter = HangmanConstants.POINTS_FOR_LETTER;
   pointsPerSentence = HangmanConstants.POINTS_FOR_SENTENCE;
 

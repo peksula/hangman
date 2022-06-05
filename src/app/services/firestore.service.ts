@@ -26,12 +26,14 @@ export class FirestoreService {
     return collectionData(sentencesRef, { idField: 'id' }) as Observable<Sentence[]>;
   }    
 
+  /*
   createSentence(sentence: Sentence): any {
     const sentencesRef = collection(this.firestore, 'sentences'); 
     return addDoc(sentencesRef, sentence);
-  }  
+  } 
+  */ 
 
-  login(): void {
+  private login(): void {
     signInAnonymously(this.auth).then(_userCredential => {
       console.log('signed in');
     }).catch(error => {
@@ -39,7 +41,7 @@ export class FirestoreService {
     })
   }
 
-  logout(): void {
+  private logout(): void {
     signOut(this.auth).then(() => {
       console.log('signed out');
     }).catch(error => {

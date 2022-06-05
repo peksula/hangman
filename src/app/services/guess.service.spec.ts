@@ -17,13 +17,6 @@ describe('GuessService', () => {
     expect(service.guesses).toEqual([]);
   });
   
-  it('resets guesses when new sentence is set', () => {
-    service.guesses = ['x'];
-    service.setSentence(FakeData.MY_STRUGGLE_2);
-    expect(service.sentence).toEqual(FakeData.MY_STRUGGLE_2);
-    expect(service.guesses).toEqual([]);
-  });
-
   it('evalutes the guess correctly', () => {
     service.setSentence(FakeData.MY_STRUGGLE_2);
     expect(service.guess('X')).toBeFalse();
@@ -56,39 +49,47 @@ describe('GuessService', () => {
       }
     });
     service.setSentence(FakeData.MY_STRUGGLE_2);
-    expect(service.completed()).toBeFalse();
+    expect(service.sentenceCompleted()).toBeFalse();
     expect(service.guess('X')).toBeFalse();
 
     expect(service.guess('M')).toBeTrue();
-    expect(service.completed()).toBeFalse();
+    expect(service.sentenceCompleted()).toBeFalse();
 
     expect(service.guess('G')).toBeTrue();
-    expect(service.completed()).toBeFalse();
+    expect(service.sentenceCompleted()).toBeFalse();
 
     expect(service.guess('S')).toBeTrue();
-    expect(service.completed()).toBeFalse();
+    expect(service.sentenceCompleted()).toBeFalse();
 
     expect(service.guess('2')).toBeTrue();
-    expect(service.completed()).toBeFalse();
+    expect(service.sentenceCompleted()).toBeFalse();
 
     expect(service.guess('T')).toBeTrue();
-    expect(service.completed()).toBeFalse();
+    expect(service.sentenceCompleted()).toBeFalse();
 
     expect(service.guess('R')).toBeTrue();
-    expect(service.completed()).toBeFalse();
+    expect(service.sentenceCompleted()).toBeFalse();
 
     expect(service.guess('E')).toBeTrue();
-    expect(service.completed()).toBeFalse();
+    expect(service.sentenceCompleted()).toBeFalse();
 
     expect(service.guess('Y')).toBeTrue();
-    expect(service.completed()).toBeFalse();
+    expect(service.sentenceCompleted()).toBeFalse();
 
     expect(service.guess('U')).toBeTrue();
-    expect(service.completed()).toBeFalse();
+    expect(service.sentenceCompleted()).toBeFalse();
 
     expect(service.guess('L')).toBeTrue();
-    expect(service.completed()).toBeTrue();
+    expect(service.sentenceCompleted()).toBeTrue();
   });
 
+  it('resets guesses when new sentence is set', () => {
+    service.clues = ['y'];
+    service.guesses = ['x'];
+    service.setSentence(FakeData.MY_STRUGGLE_2);
+    expect(service.sentence).toEqual(FakeData.MY_STRUGGLE_2);
+    expect(service.clues).toEqual([]);
+    expect(service.guesses).toEqual([]);
+  });
 
 });

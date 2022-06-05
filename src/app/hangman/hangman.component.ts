@@ -14,14 +14,11 @@ import { GameState } from '../models/state';
 export class HangmanComponent implements OnInit, OnDestroy {
   formattedSentence$: Observable<string>;
   lettersRows = HangmanConstants.LETTERS;
-  helpButtonEnabled: boolean = false;
-  helpRemaining: number = HangmanConstants.ALLOWED_HELPS;
   message: string = '';
   mistakesRemaining: number = HangmanConstants.ALLOWED_MISTAKES;
   nextButtonEnabled: boolean = false;
   startButtonEnabled: boolean = true;
   private gameStateSubscription!: Subscription;
-  private helpSubscription!: Subscription;
   private mistakeSubscription!: Subscription;
 
   constructor(
@@ -31,7 +28,6 @@ export class HangmanComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.observeHelp();
     this.observeMistakes();
     this.observeState();
   }
@@ -43,19 +39,12 @@ export class HangmanComponent implements OnInit, OnDestroy {
     if (this.mistakeSubscription) {
       this.mistakeSubscription.unsubscribe();
     }
-    if (this.helpSubscription) {
-      this.helpSubscription.unsubscribe();
-    } 
   }  
 
   onGuess(letter: string) {
     this.gameService.registerGuess(letter);
   }
-
-  onHelp() {
-    this.gameService.requestHelp();
-  }
-
+  
   onNext() {
     this.gameService.nextSentence();
   }
@@ -70,8 +59,6 @@ export class HangmanComponent implements OnInit, OnDestroy {
       (state) => {
         if (state === GameState.STARTED) {
           this.message = '';
-          this.helpRemaining = HangmanConstants.ALLOWED_HELPS;
-          this.helpButtonEnabled = true;
           this.startButtonEnabled = false;
           this.nextButtonEnabled = false;
         }
@@ -84,26 +71,14 @@ export class HangmanComponent implements OnInit, OnDestroy {
           this.startButtonEnabled = true;
         }
         if (state === GameState.SENTENCE_COMPLETED) {
-          this.helpButtonEnabled = false;
           this.startButtonEnabled = false;
           this.nextButtonEnabled = true;
         }
         if (state === GameState.NEXT_SENTENCE) {
           this.nextButtonEnabled = false;
           this.startButtonEnabled = false;
-          this.helpButtonEnabled = this.helpRemaining > 0;
           this.message = '';
         }
-      }
-    );
-  }
-
-  private observeHelp() {
-    this.helpSubscription = this.gameService.help().subscribe(
-      (help) => {
-        this.message = help.text
-        this.helpRemaining = help.remaining;
-        this.helpButtonEnabled = false;
       }
     );
   }
