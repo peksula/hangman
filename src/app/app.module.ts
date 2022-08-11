@@ -19,6 +19,7 @@ import { LetterComponent } from './hangman/letter/letter.component';
 import { ScoreComponent } from './hangman/score/score.component';
 import { HighScoresComponent } from './hangman/high-scores/high-scores.component';
 import { InstructionsComponent } from './hangman/instructions/instructions.component';
+import { PersonComponent } from './hangman/person/person.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { InstructionsComponent } from './hangman/instructions/instructions.compo
     LetterComponent,
     ScoreComponent,
     HighScoresComponent,
-    InstructionsComponent
+    InstructionsComponent,
+    PersonComponent
   ],
   imports: [
     BrowserModule,
