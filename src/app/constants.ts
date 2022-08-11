@@ -8,6 +8,7 @@ export class HangmanConstants
         ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
         ['Z', 'X', 'C', 'V', 'B', 'N', 'M']
     ];
+    static readonly CLUE_FREQUENCY = 5;
     static readonly POINTS_FOR_LETTER = 0;
     static readonly POINTS_FOR_SENTENCE = 1;
     static readonly TITLE = 'Hangman';

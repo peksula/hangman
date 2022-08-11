@@ -9,11 +9,16 @@ import { Sentence } from '../models/sentence';
 })
 export class GuessService {
   sentence?: Sentence;
+  clueSubject: Subject<string> = new Subject<string>();
   formattedSentenceSubject = new Subject<string>();
   guesses: string[] = [];
   clues: string[] = [];
 
   constructor() {
+  }
+
+  clue(): Observable<string> {
+    return this.clueSubject.asObservable();
   }
   
   formattedSentence(): Observable<string>{
@@ -42,21 +47,29 @@ export class GuessService {
     return completed;
   }
 
-  setSentence(sentence: Sentence, giveClue: boolean = true) {
+  setSentence(sentence: Sentence) {
     this.sentence = sentence;
     this.guesses = [];
     this.clues = [];
-    if (giveClue) {
-      this.giveClue();
-    }
     this.format();
   }
 
-  private giveClue() {
+  giveClue() {
     if (this.sentence && this.sentence.title.length > 1) {
-      const randomIndex = Math.floor(Math.random() * this.sentence?.title.length);
-      this.clues.push(this.sentence.title[randomIndex].toUpperCase());
+      let trimmed = this.sentence?.title;
+      HangmanConstants.UNMASKED_LETTERS.forEach(unmasked => {
+        trimmed = trimmed.replace(unmasked, '');
+      });
+      const clueFrequency = Math.floor(Math.max(trimmed.length / HangmanConstants.CLUE_FREQUENCY, 1));
+      for (let i = 0; i < clueFrequency; i++) {
+        const randomIndex = Math.floor(Math.random() * trimmed.length);
+        const clue = trimmed[randomIndex].toUpperCase();
+        trimmed = this.removeByIndex(trimmed, randomIndex);
+        this.clues.push(clue);
+        this.clueSubject.next(clue);
+      }
     }
+    this.format();
   }
 
   private knownLetters(): string[] {
@@ -82,4 +95,9 @@ export class GuessService {
     });
     this.formattedSentenceSubject.next(formatted.join(''));
   }
+
+  private removeByIndex(str: string, index: number) {
+    return str.slice(0, index) + str.slice(index + 1);
+  }  
+
 }

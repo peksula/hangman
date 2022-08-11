@@ -15,11 +15,9 @@ export class HangmanComponent implements OnInit, OnDestroy {
   formattedSentence$: Observable<string>;
   lettersRows = HangmanConstants.LETTERS;
   message: string = '';
-  mistakesRemaining: number = HangmanConstants.ALLOWED_MISTAKES;
   nextButtonEnabled: boolean = false;
   startButtonEnabled: boolean = true;
   private gameStateSubscription!: Subscription;
-  private mistakeSubscription!: Subscription;
 
   constructor(
     private gameService: GameService,
@@ -28,7 +26,6 @@ export class HangmanComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.observeMistakes();
     this.observeState();
   }
 
@@ -36,9 +33,6 @@ export class HangmanComponent implements OnInit, OnDestroy {
     if (this.gameStateSubscription) {
       this.gameStateSubscription.unsubscribe();
     } 
-    if (this.mistakeSubscription) {
-      this.mistakeSubscription.unsubscribe();
-    }
   }  
 
   onGuess(letter: string) {
@@ -82,13 +76,5 @@ export class HangmanComponent implements OnInit, OnDestroy {
       }
     );
   }
-
-  private observeMistakes() {
-    this.mistakeSubscription = this.gameService.mistake().subscribe(
-      (mistake) => {
-        this.mistakesRemaining = mistake.remaining;
-      }
-    );
-  }  
   
 }

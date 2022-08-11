@@ -14,10 +14,9 @@
   </section>
 
   <section>
-    <div class="hangman">
-      {{ mistakesRemaining }}
+    <div class="person-image">
+      <app-person></app-person>
     </div>
-
     <div class="letter-buttons">
       <div *ngFor="let letter_row of lettersRows">
         <app-letter
@@ -61,7 +60,7 @@
   <section>
     <div class="i-made-this">
       I made this! @xfpekka, 2022<br>
-      v.0.5, June 6th.<br>
+      v.0.6, August 11th.<br>
       Still in progress.<br>
     </div>
   </section>

@@ -21,13 +21,6 @@ section {
     margin: 25px;
 }
 
-.hangman {
-    float: right;
-    margin-top: 50px;
-    margin-left: 50px;
-    font: 150px verdana, sans-serif;
-}
-
 .high-scores {
     float: right;
     margin-left: 20px;
@@ -45,15 +38,21 @@ section {
 }
 
 .letter-buttons {
+    float: right;
     margin: 25px;
-    margin-left: 50px;
-    margin-top: 50px;
-    width: 1000px;
+    margin-left: 20px;
+    margin-top: 20px;
 }
 
 .message {
     margin-left: 50px;
     font: 20px verdana, sans-serif;
+}
+
+.person-image {
+    float: right;
+    margin-top: 20px;
+    margin-left: 20px;
 }
 
 .score {

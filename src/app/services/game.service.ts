@@ -55,7 +55,9 @@ export class GameService {
     if (sentence) {
       this.game.newSentence(sentence);
       this.guessService.setSentence(sentence);
+      this.mistakeSubject.next(this.game.mistake);
       this.changeState(GameState.NEXT_SENTENCE);
+      this.guessService.giveClue();
     }
   }
 

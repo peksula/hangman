@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 
 import { GameService } from '../../services/game.service';
 import { GameState } from '../../models/state';
+import { GuessService } from 'src/app/services/guess.service';
 
 @Component({
   selector: 'app-letter',
@@ -15,19 +16,35 @@ export class LetterComponent implements OnInit, OnDestroy {
   @Output() guessed = new EventEmitter<string>();
   disabled: boolean = true;
   private gameStateSubscription!: Subscription;
+  private clueSubscription!: Subscription;
 
-  constructor(private gameService: GameService) {
+  constructor(
+    private gameService: GameService,
+    private guessService: GuessService) {
   }
 
   ngOnInit(): void {
     this.gameStateSubscription = this.gameService.gameState().subscribe(
       (state) => this.onStateChange(state)
     );
+    this.clueSubscription = this.guessService.clue().subscribe(
+      (letter) => {
+        console.log('got clue ' + letter);
+        if (letter == this.letter) {
+          console.log('match');
+          this.disabled = true;
+        }
+      }
+    );
+
   }
 
   ngOnDestroy() {
     if (this.gameStateSubscription) {
       this.gameStateSubscription.unsubscribe();
+    } 
+    if (this.clueSubscription) {
+      this.clueSubscription.unsubscribe();
     } 
   }
 

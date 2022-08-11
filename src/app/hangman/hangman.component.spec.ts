@@ -10,7 +10,6 @@ import { firestoreServiceStub } from '../services/firestore.stub.service';
 import { GameService } from '../services/game.service';
 import { GuessService } from '../services/guess.service';
 import { HangmanComponent } from './hangman.component';
-import { HangmanConstants } from '../constants';
 import { HighScoresComponent } from './high-scores/high-scores.component';
 import { InstructionsComponent } from './instructions/instructions.component';
 import { LetterComponent } from './letter/letter.component';
@@ -63,11 +62,6 @@ describe('HangmanComponent', () => {
   it('initializes with start and next button in correct states', () => {
     expect(component.startButtonEnabled).toBeTrue();
     expect(component.nextButtonEnabled).toBeFalse();
-  });
-
-  it('registers wrong guess', () => {
-    component.onGuess('X');
-    expect(component.mistakesRemaining).toBe(HangmanConstants.ALLOWED_MISTAKES - 1);
   });
 
   it('resets message when start button pressed', () => {
