@@ -42,21 +42,25 @@ export class GuessService {
     return completed;
   }
 
-  setSentence(sentence: Sentence) {
+  setSentence(sentence: Sentence, giveClue: boolean = true) {
     this.sentence = sentence;
     this.guesses = [];
     this.clues = [];
+    if (giveClue) {
+      this.giveClue();
+    }
     this.format();
   }
 
-  giveClue() {
-    if (this.sentence) {
+  private giveClue() {
+    if (this.sentence && this.sentence.title.length > 1) {
       const randomIndex = Math.floor(Math.random() * this.sentence?.title.length);
+      this.clues.push(this.sentence.title[randomIndex].toUpperCase());
     }
   }
 
   private knownLetters(): string[] {
-    return [...this.guesses, ...HangmanConstants.UNMASKED_LETTERS];
+    return [...this.guesses, ...this.clues, ...HangmanConstants.UNMASKED_LETTERS];
   }
 
   private comparable(): string {

@@ -23,6 +23,10 @@ export class FakeData
     title: 'my struggle 4',
     help: 'help text'
   } as Sentence;
+  static readonly THREE = {
+    title: '3',
+    help: 'help text'
+  } as Sentence;
 
   static readonly SENTENCES = [
     FakeData.MY_STRUGGLE_1,
