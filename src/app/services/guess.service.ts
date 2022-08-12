@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 
+import { ClueService } from './clue.service';
 import { HangmanConstants } from '../constants';
 import { Sentence } from '../models/sentence';
 
@@ -9,16 +10,12 @@ import { Sentence } from '../models/sentence';
 })
 export class GuessService {
   sentence?: Sentence;
-  clueSubject: Subject<string> = new Subject<string>();
   formattedSentenceSubject = new Subject<string>();
   guesses: string[] = [];
   clues: string[] = [];
 
-  constructor() {
-  }
-
-  clue(): Observable<string> {
-    return this.clueSubject.asObservable();
+  constructor(private clueService: ClueService) {
+    this.listenClues();
   }
   
   formattedSentence(): Observable<string>{
@@ -54,28 +51,6 @@ export class GuessService {
     this.format();
   }
 
-  giveClue() {
-    if (this.sentence && this.sentence.title.length > 1) {
-      let trimmed = this.sentence?.title;
-      HangmanConstants.UNMASKED_LETTERS.forEach(unmasked => {
-        trimmed = trimmed.replace(unmasked, '');
-      });
-      const clueFrequency = Math.floor(Math.max(trimmed.length / HangmanConstants.CLUE_FREQUENCY, 1));
-      for (let i = 0; i < clueFrequency; i++) {
-        const randomIndex = Math.floor(Math.random() * trimmed.length);
-        const clue = trimmed[randomIndex].toUpperCase();
-        trimmed = this.removeByIndex(trimmed, randomIndex);
-        this.clues.push(clue);
-        this.clueSubject.next(clue);
-      }
-    }
-    this.format();
-  }
-
-  private knownLetters(): string[] {
-    return [...this.guesses, ...this.clues, ...HangmanConstants.UNMASKED_LETTERS];
-  }
-
   private comparable(): string {
     // Converts the sentence into upper case format,
     // so that the uppercased letters can be matched against it
@@ -96,8 +71,18 @@ export class GuessService {
     this.formattedSentenceSubject.next(formatted.join(''));
   }
 
-  private removeByIndex(str: string, index: number) {
-    return str.slice(0, index) + str.slice(index + 1);
-  }  
+  private listenClues() {
+    this.clueService.clue().subscribe(
+      letter => {
+        this.clues.push(letter)
+        this.format();
+      }
+    );
+  }
+
+  private knownLetters(): string[] {
+    return [...this.guesses, ...this.clues, ...HangmanConstants.UNMASKED_LETTERS];
+  }
+
 
 }

@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject, first } from 'rxjs';
 
+import { ClueService } from './clue.service';
 import { Game } from '../models/game';
 import { GameState } from '../models/state';
+import { GuessService } from './guess.service';
+import { Mistake } from '../models/mistake';
 import { Scoring } from '../models/scoring';
 import { Sentence } from '../models/sentence';
-import { GuessService } from './guess.service';
 import { SentenceService } from './sentence.service';
-import { Mistake } from '../models/mistake';
 
 
 @Injectable({
@@ -20,6 +21,7 @@ export class GameService {
   stateSubject: Subject<GameState> = new Subject<GameState>();
 
   constructor(
+    private clueService: ClueService,
     private guessService: GuessService,
     private sentenceService: SentenceService) {
   }
@@ -53,11 +55,11 @@ export class GameService {
   nextSentence(): void {
     const sentence = this.sentenceService.randomSentence();
     if (sentence) {
+      this.changeState(GameState.NEXT_SENTENCE);
       this.game.newSentence(sentence);
       this.guessService.setSentence(sentence);
       this.mistakeSubject.next(this.game.mistake);
-      this.changeState(GameState.NEXT_SENTENCE);
-      this.guessService.giveClue();
+      this.clueService.giveClue(sentence);
     }
   }
 

@@ -1,9 +1,9 @@
 import { Subscription  } from 'rxjs';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 
+import { ClueService } from '../../services/clue.service';
 import { GameService } from '../../services/game.service';
 import { GameState } from '../../models/state';
-import { GuessService } from 'src/app/services/guess.service';
 
 @Component({
   selector: 'app-letter',
@@ -20,18 +20,16 @@ export class LetterComponent implements OnInit, OnDestroy {
 
   constructor(
     private gameService: GameService,
-    private guessService: GuessService) {
+    private clueService: ClueService) {
   }
 
   ngOnInit(): void {
     this.gameStateSubscription = this.gameService.gameState().subscribe(
       (state) => this.onStateChange(state)
     );
-    this.clueSubscription = this.guessService.clue().subscribe(
+    this.clueSubscription = this.clueService.clue().subscribe(
       (letter) => {
-        console.log('got clue ' + letter);
         if (letter == this.letter) {
-          console.log('match');
           this.disabled = true;
         }
       }
