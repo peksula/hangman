@@ -7,6 +7,10 @@ export let firestoreServiceStub: Partial<FirestoreService>;
 
 export class FakeData 
 {
+  static readonly CLYDE_BRUCKMAN = {
+    title: "clyde bruckman's final repose",
+    help: 'help text'
+  } as Sentence;
   static readonly MY_STRUGGLE_1 = {
     title: 'my struggle 1',
     help: 'help text'

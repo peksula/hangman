@@ -48,7 +48,7 @@ describe('GuessService', () => {
         done();
       }
     });
-    service.setSentence(FakeData.MY_STRUGGLE_2, false);
+    service.setSentence(FakeData.MY_STRUGGLE_2);
     expect(service.sentenceCompleted()).toBeFalse();
     expect(service.guess('X')).toBeFalse();
 
@@ -88,15 +88,7 @@ describe('GuessService', () => {
     service.setSentence(FakeData.MY_STRUGGLE_2);
     expect(service.sentence).toEqual(FakeData.MY_STRUGGLE_2);
     expect(service.guesses).toEqual([]);
-  });
-
-  it('gives a clue', () => {
-    service.setSentence(FakeData.MY_STRUGGLE_3);
-    expect(service.clues).not.toEqual([]);
-    service.setSentence(FakeData.THREE);
     expect(service.clues).toEqual([]);
-
-  });
-
+});
 
 });

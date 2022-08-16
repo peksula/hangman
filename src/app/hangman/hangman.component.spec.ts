@@ -13,6 +13,7 @@ import { HangmanComponent } from './hangman.component';
 import { HighScoresComponent } from './high-scores/high-scores.component';
 import { InstructionsComponent } from './instructions/instructions.component';
 import { LetterComponent } from './letter/letter.component';
+import { PersonComponent } from './person/person.component';
 import { ScoreComponent } from './score/score.component';
 import { SentenceService } from '../services/sentence.service';
 import { GameState } from '../models/state';
@@ -31,6 +32,7 @@ describe('HangmanComponent', () => {
         HighScoresComponent,
         InstructionsComponent,
         LetterComponent,
+        PersonComponent,
         ScoreComponent
       ],
       imports: [

@@ -36,14 +36,13 @@ export class ClueService {
   }
 
   trimSentence(sentence: Sentence) {
-    let trimmed = sentence.title;
-    // Remove all special letters
-    HangmanConstants.UNMASKED_LETTERS.forEach(unmasked => {
-      trimmed = trimmed.replace(unmasked, '');
+    let individuals: string[] = [];
+    Array.from(sentence.title).forEach(letter => {
+      if (!individuals.includes(letter) && !HangmanConstants.UNMASKED_LETTERS.includes(letter) ) {
+        individuals.push(letter);
+      }
     });
-
-    // Remove duplicate letters
-    return Array.from(new Set(trimmed.split(','))).toString()
+    return individuals.join('');
   }
 
   private removeLetterByIndex(str: string, index: number) {
